@@ -1,0 +1,33 @@
+<html>
+  <script src="js/jquery-3.1.1.js"></script>
+  <script src="js/mustache.min-2.3.0.js"></script>
+
+  <script src="js/submit.js"></script>
+
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <link rel="stylesheet" href="css/shareit.css">
+
+<body>
+    <div class="container">
+	  <div class="row">
+	    <div class="three columns">
+	    	<input value="New Book" type="button" onclick="changeContent('newbook.partial')">
+	    	<input value="List Books" type="button" onclick="listBooks()">
+	    </div>
+	    <div class="nine columns" id="content">
+	      <h2>ShareIt</h2>
+		   <table border="0"><tbody>
+			   <tr><td><label for="title">Titel:</label></td> <td><input type="text" name="title"></td></tr>
+			   <tr><td><label for="author">Autor:</label></td> <td><input type="text" name="author"></td></tr>
+			   <tr><td><label for="isbn">ISBN:</label></td> <td><input type="text" name="isbn"></td></tr>
+	       </tbody></table>
+		  <div><span id="errormessage" class="hidden error">ERROR</span></div>
+		  <input type="button" class="button-primary" id="registerButton" onclick="submitNewBook()" value="Eintragen"/>
+	    </div>
+	  </div>
+    </div>
+ </body>
+</html>

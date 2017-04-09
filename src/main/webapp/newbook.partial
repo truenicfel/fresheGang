@@ -1,0 +1,8 @@
+	      <h2>ShareIt</h2>
+		   <table border="0"><tbody>
+			   <tr><td><label for="title">Titel:</label></td> <td><input type="text" name="title"></td></tr>
+			   <tr><td><label for="author">Autor:</label></td> <td><input type="text" name="author"></td></tr>
+			   <tr><td><label for="isbn">ISBN:</label></td> <td><input type="text" name="isbn"></td></tr>
+	       </tbody></table>
+		  <div><span id="errormessage" class="hidden error">ERROR</span></div>
+		  <input type="button" class="button-primary" id="registerButton" onclick="submitNewBook()" value="Eintragen"/>
