@@ -5,14 +5,13 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.dataExchange;
+package edu.hm.cs.schnitzel.database;
 
 /**
  *
  * @author nicfel
  */
-public class MediaRequest implements Request {
-
+public class PseudoDatabase {
     //Object Variables
     //--------------------------------------------------------------------------
     //Constructors
@@ -21,11 +20,6 @@ public class MediaRequest implements Request {
     //--------------------------------------------------------------------------
     //Methods Public
     //--------------------------------------------------------------------------
-    @Override
-    public MediaResult processRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
-
 }

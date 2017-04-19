@@ -5,28 +5,23 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.daos;
+package edu.hm.cs.schnitzel.services;
 
+import edu.hm.cs.schnitzel.dataExchange.Result;
 import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
-import java.util.List;
 
 /**
  *
  * @author nicfel
  */
-public interface DatabaseAccessObject {
+public interface Service {
     
-    boolean addBook(Book toAdd);
-
-    boolean addDisc(Disc toAdd);
-
-    List<Book> getBooks();
-
-    List<Disc> getDiscs();
-
-    boolean updateBook(Book toUpdate);
-
-    boolean updateDisc(Disc toUpdate);
-
+   Result addBook(Book toAdd);
+   Result addDisc(Disc toAdd);
+   Result getBooks();
+   Result getDiscs();
+   Result updateBook(Book toUpdate);
+   Result updateDisc(Disc toUpdate);
+    
 }

@@ -5,17 +5,18 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.services;
+package edu.hm.cs.schnitzel.daos;
 
-import edu.hm.cs.schnitzel.dataExchange.Result;
 import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
+import java.util.List;
 
 /**
  *
  * @author nicfel
  */
-public class MediaService implements Service {
+public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
+
     //Object Variables
     //--------------------------------------------------------------------------
     //Constructors
@@ -25,36 +26,34 @@ public class MediaService implements Service {
     //Methods Public
     //--------------------------------------------------------------------------
     @Override
-    public Result addBook(Book toAdd) {
+    public boolean addBook(Book toAdd) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Result addDisc(Disc toAdd) {
+    public boolean addDisc(Disc toAdd) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Result getBooks() {
+    public List<Book> getBooks() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Result getDiscs() {
+    public List<Disc> getDiscs() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean updateBook(Book toUpdate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean updateDisc(Disc toUpdate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
-
-
-    @Override
-    public Result updateBook(Book toUpdate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Result updateDisc(Disc toUpdate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
