@@ -7,6 +7,8 @@
  */
 package edu.hm.cs.schnitzel.dataExchange;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author nicfel
@@ -15,6 +17,7 @@ public interface Request {
     
     /**
      *
+     * @param request
      * @return
      */
     MediaResult processRequest();

@@ -9,8 +9,8 @@ package edu.hm.cs.schnitzel.entities;
 
 /**
  * Represents Books.
- *
- * @author nicfel
+ * This class will be able to be parsed from + to json.
+ * @author N.Dassler, P.Konopac
  */
 public class Book extends Resource {
 
@@ -31,6 +31,14 @@ public class Book extends Resource {
 
     //Constructors
     //--------------------------------------------------------------------------
+    /**
+     * Initializes book with only default values.
+     * Necessary for parsing json with jackson.
+     */
+    public Book() {
+        this("");
+    }
+    
     /**
      * Initializes book with title (all others will be default values).
      *

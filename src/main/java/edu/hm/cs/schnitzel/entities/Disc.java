@@ -9,7 +9,7 @@ package edu.hm.cs.schnitzel.entities;
 
 /**
  * Represents Discs.
- *
+ * This class will be able to be parsed from + to json with jackson.
  * @author N.Dassler, P.Konopac
  */
 public class Disc extends Resource {
@@ -39,6 +39,14 @@ public class Disc extends Resource {
 
     //Constructors
     //--------------------------------------------------------------------------
+    
+    /**
+     * Initializes disc with only default values.
+     * Necessary to parse json with jackson.
+     */
+    public Disc() {
+        this("");
+    }
     /**
      * Creates a new book and initializes with a title (other values will be
      * default).
