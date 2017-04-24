@@ -7,6 +7,9 @@
  */
 package edu.hm.cs.schnitzel.dataExchange;
 
+import edu.hm.cs.schnitzel.entities.Resource;
+import java.util.List;
+
 /**
  *
  * @author nicfel
@@ -17,6 +20,9 @@ public class MediaResult implements Result{
     //--------------------------------------------------------------------------
     //Constructors
     //--------------------------------------------------------------------------
+    public MediaResult(int code, String status,  List<Resource> resources) {    
+    }
+
     //Methods Private
     //--------------------------------------------------------------------------
     //Methods Public
@@ -37,5 +43,10 @@ public class MediaResult implements Result{
     }
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
+
+    @Override
+    public String getContentType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

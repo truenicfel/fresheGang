@@ -9,13 +9,8 @@ package edu.hm.cs.schnitzel.dataExchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.cs.schnitzel.entities.Book;
-import edu.hm.cs.schnitzel.entities.Disc;
-import edu.hm.cs.schnitzel.entities.Resource;
+import edu.hm.cs.schnitzel.services.MediaService;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +26,6 @@ public class MediaRequest implements Request {
     private final HttpServletResponse response;
     private final String requestType;
     private final String uri;
-    private final List<Resource> resources;
     //Constructors
     //--------------------------------------------------------------------------
 
@@ -40,34 +34,62 @@ public class MediaRequest implements Request {
         this.response = response;
         this.requestType = request.getMethod();
         this.uri = request.getRequestURI();
-        this.resources = new ArrayList<>();
     }
 
     //Methods Private
     //--------------------------------------------------------------------------
-    /**
-     * Create a resource from a given InputStream and a given type of the
-     * object. Using the jackson library the given input will be converted into
-     * an object. The type of the object is defined by the second param.
-     *
-     * @param input The servletStream from which the data will be read.
-     * @param type The type of the result object.
-     * @throws IOException Will be handled in calling method.
-     * @return true if successful else if not.
-     */
-    private boolean createResource(final ServletInputStream input, final String type) throws IOException {
-        //success variable
-        boolean result = true;
-        //create an object mapper
+    private Result delegateBookAction() throws IOException {
+        //the result object which will be returned
+        final Result result;
+        //the underlying service that will actually execute the desired action 
+        final MediaService mediaService = new MediaService();
+        //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
-        //determine which type to create
-        if ("books".equals(type)) {
-            getResources().add(mapper.readValue(input, Book.class));
-        } else if ("discs".equals(type)) {
-            getResources().add(mapper.readValue(input, Disc.class));
-        } else {
-            result = false;
-            System.out.println("Bad request.");
+        switch (getRequestType()) {
+            case "GET":
+                //just return books into the result
+                result = mediaService.getBooks();
+                break;
+            case "PUT":
+                //update a book which will be specified with a book object
+                result = mediaService.updateBook(mapper.readValue(getRequest().getInputStream(), Book.class));
+                break;
+            case "POST":
+                //add a book which will be specified with a book object
+                result = mediaService.addBook(mapper.readValue(getRequest().getInputStream(), Book.class));
+                break;
+            default:
+                //TODO add correct error result
+                result = new MediaResult(404, "Not found", null);
+                break;
+        }
+        return result;
+    }
+
+    private Result delegateDiscAction() throws IOException {
+        //the result object which will be returned
+        final Result result;
+        //the underlying service that will actually execute the desired action 
+        final MediaService mediaService = new MediaService();
+        //the jackson mapper to create book objects
+        final ObjectMapper mapper = new ObjectMapper();
+        switch (getRequestType()) {
+            case "GET":
+                //just return disc into the result
+                result = mediaService.getDiscs();
+                break;
+            case "PUT":
+                //update a disc which will be specified with a disc object
+                result = mediaService.updateDisc(mapper.readValue(getRequest().getInputStream(), Book.class));
+                break;
+            case "POST":
+                //add a disc which will be specified with a disc object
+                result = mediaService.addDisc(mapper.readValue(getRequest().getInputStream(), Book.class));
+                break;
+            default:
+                //TODO add correct error result
+                result = new MediaResult(404, "Not found", null);
+                break;
         }
         return result;
     }
@@ -75,23 +97,26 @@ public class MediaRequest implements Request {
     //Methods Public
     //--------------------------------------------------------------------------
     @Override
-    public MediaResult processRequest() {
-        //success variable if anything goes wrong this will be false
-        boolean success = true;
-        //create book/disc if request is post/put
-        if (!"GET".equals(getRequestType())) {
-            try {
-                System.out.println(Arrays.toString(getUri().split("/")));
-                success = createResource(getRequest().getInputStream(), getUri().split("/")[3]);
-            } catch (IOException exception) {
-                success = false;
-                System.out.println("An error occured.");
-                System.out.println(exception.toString());
+    public Result processRequest() {
+        //the result which will be returned
+        Result result;
+        //book or disc request
+        final String requestedResource = getRequest().getRequestURI().split("/")[3];
+        try {
+            if ("books".equals(requestedResource)) {
+                result = delegateBookAction();
+            } else if ("discs".equals(requestedResource)) {
+                result = delegateDiscAction();
+            } else {
+                //TODO add a correct error report
+                result = new MediaResult(404, "not found", null);
             }
+        } catch (IOException exception) {
+            //TODO add a correct error report
+            result = new MediaResult(404, "not found", null);
         }
-        
-        return new MediaResult();
 
+        return result;
     }
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
@@ -110,10 +135,6 @@ public class MediaRequest implements Request {
 
     private String getUri() {
         return uri;
-    }
-
-    private List<Resource> getResources() {
-        return resources;
     }
 
 }

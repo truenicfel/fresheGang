@@ -16,5 +16,6 @@ public interface Result {
     int getCode();
     String getStatus();
     String getContent();
+    String getContentType();
     
 }

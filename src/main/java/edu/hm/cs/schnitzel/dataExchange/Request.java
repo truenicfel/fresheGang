@@ -20,6 +20,6 @@ public interface Request {
      * @param request
      * @return
      */
-    MediaResult processRequest();
+    Result processRequest();
     
 }
