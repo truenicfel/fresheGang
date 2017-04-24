@@ -9,6 +9,7 @@ package edu.hm.cs.schnitzel.dataExchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.cs.schnitzel.entities.Book;
+import edu.hm.cs.schnitzel.entities.Disc;
 import edu.hm.cs.schnitzel.services.MediaService;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,11 +81,11 @@ public class MediaRequest implements Request {
                 break;
             case "PUT":
                 //update a disc which will be specified with a disc object
-                result = mediaService.updateDisc(mapper.readValue(getRequest().getInputStream(), Book.class));
+                result = mediaService.updateDisc(mapper.readValue(getRequest().getInputStream(), Disc.class));
                 break;
             case "POST":
                 //add a disc which will be specified with a disc object
-                result = mediaService.addDisc(mapper.readValue(getRequest().getInputStream(), Book.class));
+                result = mediaService.addDisc(mapper.readValue(getRequest().getInputStream(), Disc.class));
                 break;
             default:
                 //TODO add correct error result
