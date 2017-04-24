@@ -3,7 +3,7 @@
     <display-name>RESTJerseyExample</display-name>
     <servlet-mapping>
         <servlet-name>MediaServlet</servlet-name>
-        <url-pattern>/MediaServlet/*</url-pattern>
+        <url-pattern>/shareit/media/*</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

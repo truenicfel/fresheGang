@@ -82,7 +82,7 @@ public class MediaRequest implements Request {
         if (!"GET".equals(getRequestType())) {
             try {
                 System.out.println(Arrays.toString(getUri().split("/")));
-                success = createResource(getRequest().getInputStream(), getUri().split("/")[2]);
+                success = createResource(getRequest().getInputStream(), getUri().split("/")[3]);
             } catch (IOException exception) {
                 success = false;
                 System.out.println("An error occured.");
