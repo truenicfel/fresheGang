@@ -146,8 +146,8 @@ public class MediaResult implements Result {
             //add status message
             root.put(NODE_MESSAGE, "A server error occured while processing"
                     + "your request."
-                    + "Infos fuer Chefinformatiker: Beim parsen des JSON-Strings"
-                    + "ist ein Fehler aufgetreten.");
+                    + "Infos fuer Chefinformatiker: Beim parsen des von Objekten"
+                    + "zu JSON-Strings ist ein Fehler aufgetreten.");
             //add empty resources node
             root.put(NODE_RESOURCES, new JSONObject());
 

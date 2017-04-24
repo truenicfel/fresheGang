@@ -63,8 +63,10 @@ public class MediaRequest implements Request {
                 result = mediaService.addBook(mapper.readValue(getRequest().getInputStream(), Book.class));
                 break;
             default:
-                //TODO add correct error result
-                result = new MediaResult(404, "Not found", null);
+                //send an error answer
+                result = new MediaResult(400, "Bad Request."
+                        + "The used http method is not supported for"
+                        + "this REST service.", null);
                 break;
         }
         return result;
@@ -97,8 +99,10 @@ public class MediaRequest implements Request {
                 result = mediaService.addDisc(mapper.readValue(getRequest().getInputStream(), Disc.class));
                 break;
             default:
-                //TODO add correct error result
-                result = new MediaResult(404, "Not found", null);
+                //send an error answer
+                result = new MediaResult(400, "Bad Request."
+                        + "The used http method is not supported for"
+                        + "this REST service.", null);
                 break;
         }
         return result;
@@ -119,11 +123,18 @@ public class MediaRequest implements Request {
                 result = delegateDiscAction();
             } else {
                 //TODO add a correct error report
-                result = new MediaResult(404, "not found", null);
+                result = new MediaResult(404, "Not found."
+                        + "The requested resource does not exist."
+                        + "Make sure to use the correct URI pattern."
+                        + "The pattern is as follows:"
+                        + "/shareit/media/books or discs/{isbn or barcode]", null);
             }
         } catch (IOException exception) {
             //TODO add a correct error report
-            result = new MediaResult(404, "not found", null);
+            result = new MediaResult(500, "A server error occured."
+                    + "This is not your fault. You can calm down again."
+                    + "Info fuer den Chefinformatiker:"
+                    + "Ein Fehler is beim parsen des Requests aufgetreten.", null);
         }
 
         return result;
