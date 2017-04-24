@@ -89,7 +89,7 @@ public class MediaRequest implements Request {
                 System.out.println(exception.toString());
             }
         }
-        System.out.println(getResources().toString());
+        
         return new MediaResult();
 
     }
