@@ -35,6 +35,13 @@ public class MediaRequest implements Request {
 
     //Methods Private
     //--------------------------------------------------------------------------
+    /**
+     * A small help method that chooses which action will performed with a book
+     * with the Service.
+     * @return Returns the result coming from the performed action.
+     * @throws IOException Exception must be handled to give the user a status
+     * report on what happened.
+     */
     private Result delegateBookAction() throws IOException {
         //the result object which will be returned
         final Result result;
@@ -62,7 +69,13 @@ public class MediaRequest implements Request {
         }
         return result;
     }
-
+    /**
+     * A small help method that chooses which action will performed with a disc
+     * with the Service.
+     * @return Returns the result coming from the performed action.
+     * @throws IOException Exception must be handled to give the user a status
+     * report on what happened.
+     */
     private Result delegateDiscAction() throws IOException {
         //the result object which will be returned
         final Result result;

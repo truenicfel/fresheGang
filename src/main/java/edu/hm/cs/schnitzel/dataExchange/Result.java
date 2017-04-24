@@ -12,10 +12,11 @@ package edu.hm.cs.schnitzel.dataExchange;
  * @author nicfel
  */
 public interface Result {
-        
-    int getCode();
-    String getStatus();
-    String getContent();
-    String getContentType();
+    /**
+     * Returns the json String which will be sent back to the requesting machine.
+     * 
+     * @return The json String. 
+     */    
+    String getJsonString();
     
 }
