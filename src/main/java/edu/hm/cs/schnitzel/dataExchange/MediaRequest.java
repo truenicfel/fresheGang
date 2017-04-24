@@ -25,16 +25,12 @@ public class MediaRequest implements Request {
     //--------------------------------------------------------------------------
     private final HttpServletRequest request;
     private final HttpServletResponse response;
-    private final String requestType;
-    private final String uri;
     //Constructors
     //--------------------------------------------------------------------------
 
     public MediaRequest(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
-        this.requestType = request.getMethod();
-        this.uri = request.getRequestURI();
     }
 
     //Methods Private
@@ -46,7 +42,7 @@ public class MediaRequest implements Request {
         final MediaService mediaService = new MediaService();
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
-        switch (getRequestType()) {
+        switch (getRequest().getMethod()) {
             case "GET":
                 //just return books into the result
                 result = mediaService.getBooks();
@@ -74,7 +70,7 @@ public class MediaRequest implements Request {
         final MediaService mediaService = new MediaService();
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
-        switch (getRequestType()) {
+        switch (getRequest().getMethod()) {
             case "GET":
                 //just return disc into the result
                 result = mediaService.getDiscs();
@@ -128,14 +124,6 @@ public class MediaRequest implements Request {
 
     private HttpServletResponse getResponse() {
         return response;
-    }
-
-    private String getRequestType() {
-        return requestType;
-    }
-
-    private String getUri() {
-        return uri;
     }
 
 }
