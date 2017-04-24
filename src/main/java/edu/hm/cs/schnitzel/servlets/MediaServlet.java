@@ -8,8 +8,8 @@
 package edu.hm.cs.schnitzel.servlets;
 
 import edu.hm.cs.schnitzel.dataExchange.MediaRequest;
+import edu.hm.cs.schnitzel.dataExchange.Result;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +32,13 @@ public class MediaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        new MediaRequest(request, response).processRequest();
+        
+        final Result result = new MediaRequest(request, response).processRequest();
+        
+        //status message
+        //get content type
+        //content
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
