@@ -20,18 +20,28 @@ import edu.hm.cs.schnitzel.entities.Disc;
  */
 public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
-    //Object Variables
+    //Constant Variables
     //--------------------------------------------------------------------------
+	
 	private static final PseudoDatabase DATABASE = new PseudoDatabase();
 	
-    //Constructors
-    //--------------------------------------------------------------------------
     //Methods Private
     //--------------------------------------------------------------------------
-
+	
+	private boolean removeBook(String isbn) {
+		DATABASE.getBooks().remove(getBook(isbn));
+		return true;
+	}
+	
+	private boolean removeDisc(String barcode) {
+		DATABASE.getDiscs().remove(getDisc(barcode));
+		return true;
+	}
+	
 	//Methods Public
     //--------------------------------------------------------------------------
-    @Override
+    
+	@Override
     public boolean addBook(Book toAdd) {
         DATABASE.getBooks().add(toAdd);
         return true;
@@ -59,25 +69,37 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     @Override
     public boolean updateBook(Book toUpdate) {
+    	removeBook(toUpdate.getIsbn());
+    	addBook(toUpdate);
         return true;
     }
 
     @Override
     public boolean updateDisc(Disc toUpdate) {
+    	removeDisc(toUpdate.getBarcode());
+    	addDisc(toUpdate);
         return true;
     }
 
 	@Override
 	public Book getBook(String isbn) {
-		return null;
+		Book result = new Book();
+		for (final Book book : DATABASE.getBooks()) {
+			if (book.getIsbn().equals(isbn)) {
+				result = book;
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public Disc getDisc(String barcode) {
-		// TODO Auto-generated method stub
-		return null;
+		Disc result = new Disc();
+		for (final Disc disc : DATABASE.getDiscs()) {
+			if (disc.getBarcode().equals(barcode)) {
+				result = disc;
+			}
+		}
+		return result;
 	}
-    
-    //Getter + Setter (also Private)
-    //--------------------------------------------------------------------------
 }
