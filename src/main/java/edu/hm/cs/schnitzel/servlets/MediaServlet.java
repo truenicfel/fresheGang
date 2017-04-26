@@ -39,7 +39,7 @@ public class MediaServlet extends HttpServlet {
         final Result result = new MediaRequest(request, response).processRequest();
         final String content = result.getJsonString();
         response.setContentLength(content.length());
-        //set content TODO
+        response.getWriter().append(content).close();
         
     }
 
