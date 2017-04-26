@@ -65,6 +65,16 @@ public class Disc extends Resource {
         this.director = director;
         this.writer = writer;
     }
+    
+    /**
+     * A copy constructor.
+     * This will copy all value from other Disc to this new Disc.
+     * @param other The other disc which will be copied.
+     */
+    public Disc(Disc other) {
+        this(other.getBarcode(), other.getYear(), other.getFsk(),
+                other.getDirector(), other.getWriter(), other.getTitle());
+    }
 
     //Methods Private
     //--------------------------------------------------------------------------

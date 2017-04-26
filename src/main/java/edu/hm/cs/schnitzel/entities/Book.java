@@ -62,6 +62,15 @@ public class Book extends Resource {
         this.isbn = isbn;
         this.year = year;
     }
+    
+    /**
+     * A copy constructor.
+     * This will copy all values from other Book to this new book.
+     * @param other The book which will be copied.
+     */
+    public Book(Book other) {
+        this(other.getAuthor(), other.getIsbn(), other.getYear(), other.getTitle());
+    }
 
     //Methods Private
     //--------------------------------------------------------------------------
