@@ -7,9 +7,12 @@
  */
 package edu.hm.cs.schnitzel.daos;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.hm.cs.schnitzel.database.PseudoDatabase;
 import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
-import java.util.List;
 
 /**
  *
@@ -19,41 +22,62 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     //Object Variables
     //--------------------------------------------------------------------------
+	private static final PseudoDatabase DATABASE = new PseudoDatabase();
+	
     //Constructors
     //--------------------------------------------------------------------------
     //Methods Private
     //--------------------------------------------------------------------------
-    //Methods Public
+
+	//Methods Public
     //--------------------------------------------------------------------------
     @Override
     public boolean addBook(Book toAdd) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DATABASE.getBooks().add(toAdd);
+        return true;
     }
 
     @Override
     public boolean addDisc(Disc toAdd) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	DATABASE.getDiscs().add(toAdd);
+        return true;
     }
 
     @Override
     public List<Book> getBooks() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	final List<Book> result = new ArrayList<>();
+    	result.addAll(DATABASE.getBooks());
+    	return result;
     }
 
     @Override
     public List<Disc> getDiscs() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	final List<Disc> result = new ArrayList<>();
+    	result.addAll(DATABASE.getDiscs());
+    	return result;
     }
 
     @Override
     public boolean updateBook(Book toUpdate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public boolean updateDisc(Disc toUpdate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
+
+	@Override
+	public Book getBook(String isbn) {
+		return null;
+	}
+
+	@Override
+	public Disc getDisc(String barcode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
 }

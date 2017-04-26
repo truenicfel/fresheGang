@@ -21,6 +21,8 @@ public interface Service {
    Result addDisc(Disc toAdd);
    Result getBooks();
    Result getDiscs();
+   Result getBook(String isbn);
+   Result getDisc(String isbn);
    Result updateBook(Book toUpdate);
    Result updateDisc(Disc toUpdate);
     

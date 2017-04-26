@@ -25,6 +25,10 @@ public interface DatabaseAccessObject {
 
     List<Disc> getDiscs();
 
+    Book getBook(String isbn);
+    
+    Disc getDisc(String barcode);
+
     boolean updateBook(Book toUpdate);
 
     boolean updateDisc(Disc toUpdate);

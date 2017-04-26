@@ -57,4 +57,16 @@ public class MediaService implements Service {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+	@Override
+	public Result getBook(String isbn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result getDisc(String isbn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
