@@ -12,6 +12,7 @@ import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
 import edu.hm.cs.schnitzel.services.MediaService;
 import java.io.IOException;
+import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +22,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MediaRequest implements Request {
 
+    //Constants
+    //--------------------------------------------------------------------------
+    private static final int INDEX_RESOURCE_TYPE = 3;
+    private static final int INDEX_ISBN = 4;
     //Object Variables
     //--------------------------------------------------------------------------
     private final HttpServletRequest request;
@@ -38,6 +43,7 @@ public class MediaRequest implements Request {
     /**
      * A small help method that chooses which action will performed with a book
      * with the Service.
+     *
      * @return Returns the result coming from the performed action.
      * @throws IOException Exception must be handled to give the user a status
      * report on what happened.
@@ -51,8 +57,15 @@ public class MediaRequest implements Request {
         final ObjectMapper mapper = new ObjectMapper();
         switch (getRequest().getMethod()) {
             case "GET":
-                //just return books into the result
-                result = mediaService.getBooks();
+                final String[] splittedURI = getRequest().getRequestURI().split("/");
+                //check if isbn is in url
+                if (splittedURI.length == INDEX_ISBN + 1) {
+                    //request only for one book
+                    result = mediaService.getBook(splittedURI[INDEX_ISBN]);
+                } else {
+                    //request for all books
+                    result = mediaService.getBooks();
+                }
                 break;
             case "PUT":
                 //update a book which will be specified with a book object
@@ -66,14 +79,16 @@ public class MediaRequest implements Request {
                 //send an error answer
                 result = new MediaResult(400, "Bad Request."
                         + "The used http method is not supported for"
-                        + "this REST service.", null);
+                        + "this REST service.", Collections.emptyList());
                 break;
         }
         return result;
     }
+
     /**
      * A small help method that chooses which action will performed with a disc
      * with the Service.
+     *
      * @return Returns the result coming from the performed action.
      * @throws IOException Exception must be handled to give the user a status
      * report on what happened.
@@ -87,8 +102,15 @@ public class MediaRequest implements Request {
         final ObjectMapper mapper = new ObjectMapper();
         switch (getRequest().getMethod()) {
             case "GET":
-                //just return disc into the result
-                result = mediaService.getDiscs();
+                final String[] splittedURI = getRequest().getRequestURI().split("/");
+                //check for isbn in uri
+                if (splittedURI.length == INDEX_ISBN + 1) {
+                    //return just the requested book
+                    result = mediaService.getBook(splittedURI[INDEX_ISBN]);
+                } else {
+                    //return all discs
+                    result = mediaService.getDiscs();
+                }
                 break;
             case "PUT":
                 //update a disc which will be specified with a disc object
@@ -102,7 +124,7 @@ public class MediaRequest implements Request {
                 //send an error answer
                 result = new MediaResult(400, "Bad Request."
                         + "The used http method is not supported for"
-                        + "this REST service.", null);
+                        + "this REST service.", Collections.emptyList());
                 break;
         }
         return result;
@@ -127,14 +149,16 @@ public class MediaRequest implements Request {
                         + "The requested resource does not exist."
                         + "Make sure to use the correct URI pattern."
                         + "The pattern is as follows:"
-                        + "/shareit/media/books or discs/{isbn or barcode]", null);
+                        + "/shareit/media/books or discs/{isbn or barcode]",
+                        Collections.emptyList());
             }
         } catch (IOException exception) {
             //TODO add a correct error report
             result = new MediaResult(500, "A server error occured."
                     + "This is not your fault. You can calm down again."
                     + "Info fuer den Chefinformatiker:"
-                    + "Ein Fehler is beim parsen des Requests aufgetreten.", null);
+                    + "Ein Fehler is beim parsen des Requests aufgetreten.", 
+                    Collections.emptyList());
         }
 
         return result;

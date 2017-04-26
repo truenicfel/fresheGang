@@ -13,8 +13,6 @@ import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
 import edu.hm.cs.schnitzel.entities.Resource;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONObject;
 
 /**
@@ -34,12 +32,33 @@ public class MediaResult implements Result {
 
     //Constants
     //--------------------------------------------------------------------------
+    /**
+     * Constant for the node "Code" in the json-String.
+     */
     private static final String NODE_CODE = "Code";
+    /**
+     * Constant for the node "Message" in the json-String.
+     */
     private static final String NODE_MESSAGE = "Message";
+    /**
+     * Constant for the node "Resources" in the json-String.
+     */
     private static final String NODE_RESOURCES = "Resources";
+    /**
+     * Constant for the node "Books" in the json-String.
+     */
     private static final String NODE_BOOKS = "Books";
+    /**
+     * Constant for the node "Discs" in the json-String.
+     */
     private static final String NODE_DISCS = "Discs";
+    /**
+     * Constant for the node "Book" in the json-String.
+     */
     private static final String NODE_BOOK = "Book";
+    /**
+     * Constant for the node "Disc" in the json-String.
+     */
     private static final String NODE_DISC = "Disc";
 
     //Object Variables
@@ -62,7 +81,8 @@ public class MediaResult implements Result {
     //--------------------------------------------------------------------------
     /**
      * A standard constructor. Initialize the class with all necessary params to
-     * ensure correct/useful responses.
+     * ensure correct/useful responses. Note that this will throw an illegal 
+     * argument exception if one of the params is null.
      *
      * @param code A code similar to http status codes providing rough
      * information on wether everything went right or not.
@@ -72,10 +92,12 @@ public class MediaResult implements Result {
      * be able to be parsed to a json String using jackson.
      */
     public MediaResult(int code, String message, List<Resource> resources) {
+        if(message == null|| resources == null) {
+            throw new IllegalArgumentException("Null as argument is not allowed here!");
+        }
         this.code = code;
         this.message = message;
         this.resources = resources;
-
     }
 
     //Methods Private
@@ -146,7 +168,7 @@ public class MediaResult implements Result {
             //add status message
             root.put(NODE_MESSAGE, "A server error occured while processing"
                     + "your request."
-                    + "Infos fuer Chefinformatiker: Beim parsen des von Objekten"
+                    + "Infos fuer Chefinformatiker: Beim parsen von Objekten"
                     + "zu JSON-Strings ist ein Fehler aufgetreten.");
             //add empty resources node
             root.put(NODE_RESOURCES, new JSONObject());
