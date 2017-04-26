@@ -33,11 +33,13 @@ public class MediaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        response.setContentType("application/json; charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+      
         final Result result = new MediaRequest(request, response).processRequest();
-        
-        //status message
-        //get content type
-        //content
+        final String content = result.getJsonString();
+        response.setContentLength(content.length());
+        //set content TODO
         
     }
 
