@@ -29,13 +29,16 @@ public class MediaRequest implements Request {
     //Object Variables
     //--------------------------------------------------------------------------
     private final HttpServletRequest request;
-    private final HttpServletResponse response;
     //Constructors
     //--------------------------------------------------------------------------
 
-    public MediaRequest(HttpServletRequest request, HttpServletResponse response) {
-        this.request = request;
-        this.response = response;
+    /**
+     * Standard Constructor which initializes object with request and response.
+     *
+     * @param requestInput The servlet request object.
+     */
+    public MediaRequest(final HttpServletRequest requestInput) {
+        this.request = requestInput;
     }
 
     //Methods Private
@@ -51,13 +54,14 @@ public class MediaRequest implements Request {
     private Result delegateBookAction() throws IOException {
         //the result object which will be returned
         final Result result;
-        //the underlying service that will actually execute the desired action 
+        //the underlying service that will actually execute the desired action
         final MediaService mediaService = new MediaService();
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
         switch (getRequest().getMethod()) {
             case "GET":
-                final String[] splittedURI = getRequest().getRequestURI().split("/");
+                final String[] splittedURI = getRequest()
+                        .getRequestURI().split("/");
                 //check if isbn is in url
                 if (splittedURI.length == INDEX_ISBN + 1) {
                     //request only for one book
@@ -69,16 +73,18 @@ public class MediaRequest implements Request {
                 break;
             case "PUT":
                 //update a book which will be specified with a book object
-                result = mediaService.updateBook(mapper.readValue(getRequest().getInputStream(), Book.class));
+                result = mediaService.updateBook(mapper.readValue(getRequest()
+                        .getInputStream(), Book.class));
                 break;
             case "POST":
                 //add a book which will be specified with a book object
-                result = mediaService.addBook(mapper.readValue(getRequest().getInputStream(), Book.class));
+                result = mediaService.addBook(mapper.readValue(getRequest()
+                        .getInputStream(), Book.class));
                 break;
             default:
                 //send an error answer
-                result = new MediaResult(400, "Bad Request."
-                        + "The used http method is not supported for"
+                result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
+                        "Bad Request. The used http method is not supported for"
                         + "this REST service.", Collections.emptyList());
                 break;
         }
@@ -96,13 +102,14 @@ public class MediaRequest implements Request {
     private Result delegateDiscAction() throws IOException {
         //the result object which will be returned
         final Result result;
-        //the underlying service that will actually execute the desired action 
+        //the underlying service that will actually execute the desired action
         final MediaService mediaService = new MediaService();
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
         switch (getRequest().getMethod()) {
             case "GET":
-                final String[] splittedURI = getRequest().getRequestURI().split("/");
+                final String[] splittedURI = getRequest()
+                        .getRequestURI().split("/");
                 //check for isbn in uri
                 if (splittedURI.length == INDEX_ISBN + 1) {
                     //return just the requested book
@@ -114,16 +121,18 @@ public class MediaRequest implements Request {
                 break;
             case "PUT":
                 //update a disc which will be specified with a disc object
-                result = mediaService.updateDisc(mapper.readValue(getRequest().getInputStream(), Disc.class));
+                result = mediaService.updateDisc(mapper.readValue(getRequest()
+                        .getInputStream(), Disc.class));
                 break;
             case "POST":
                 //add a disc which will be specified with a disc object
-                result = mediaService.addDisc(mapper.readValue(getRequest().getInputStream(), Disc.class));
+                result = mediaService.addDisc(mapper.readValue(getRequest()
+                        .getInputStream(), Disc.class));
                 break;
             default:
                 //send an error answer
-                result = new MediaResult(400, "Bad Request."
-                        + "The used http method is not supported for"
+                result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
+                        "Bad Request. The used http method is not supported for"
                         + "this REST service.", Collections.emptyList());
                 break;
         }
@@ -133,11 +142,12 @@ public class MediaRequest implements Request {
     //Methods Public
     //--------------------------------------------------------------------------
     @Override
-    public Result processRequest() {
+    final public Result processRequest() {
         //the result which will be returned
         Result result;
         //book or disc request
-        final String requestedResource = getRequest().getRequestURI().split("/")[3];
+        final String requestedResource = getRequest()
+                .getRequestURI().split("/")[INDEX_RESOURCE_TYPE];
         try {
             if ("books".equals(requestedResource)) {
                 result = delegateBookAction();
@@ -145,8 +155,8 @@ public class MediaRequest implements Request {
                 result = delegateDiscAction();
             } else {
                 //TODO add a correct error report
-                result = new MediaResult(404, "Not found."
-                        + "The requested resource does not exist."
+                result = new MediaResult(HttpServletResponse.SC_NOT_FOUND,
+                        "Not found. The requested resource does not exist."
                         + "Make sure to use the correct URI pattern."
                         + "The pattern is as follows:"
                         + "/shareit/media/books or discs/{isbn or barcode]",
@@ -154,10 +164,11 @@ public class MediaRequest implements Request {
             }
         } catch (IOException exception) {
             //TODO add a correct error report
-            result = new MediaResult(500, "A server error occured."
-                    + "This is not your fault. You can calm down again."
-                    + "Info fuer den Chefinformatiker:"
-                    + "Ein Fehler is beim parsen des Requests aufgetreten.", 
+            result = new MediaResult(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "A server error occured. This is not your fault. "
+                    + "You can calm down again. Info fuer den Chefinformatiker:"
+                    + "Ein Fehler is beim parsen des Requests aufgetreten.",
                     Collections.emptyList());
         }
 
@@ -166,12 +177,13 @@ public class MediaRequest implements Request {
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
 
+    /**
+     * Simple getter for Request Object Variable.
+     * @return Request object.
+     */
     private HttpServletRequest getRequest() {
         return request;
     }
 
-    private HttpServletResponse getResponse() {
-        return response;
-    }
 
 }

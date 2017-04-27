@@ -8,8 +8,9 @@
 package edu.hm.cs.schnitzel.entities;
 
 /**
- * Represents Discs.
- * This class will be able to be parsed from + to json with jackson.
+ * Represents Discs. This class will be able to be parsed from + to json with
+ * jackson.
+ *
  * @author N.Dassler, P.Konopac
  */
 public class Disc extends Resource {
@@ -39,39 +40,42 @@ public class Disc extends Resource {
 
     //Constructors
     //--------------------------------------------------------------------------
-    
     /**
-     * Initializes disc with only default values.
-     * Necessary to parse json with jackson.
+     * Initializes disc with only default values. Necessary to parse json with
+     * jackson.
      */
     public Disc() {
         this("");
     }
+
     /**
      * Creates a new book and initializes with a title (other values will be
      * default).
      *
      * @param title The title of the disc.
      */
-    public Disc(String title) {
+    public Disc(final String title) {
         this("", 0, 0, "", "", title);
     }
 
-    public Disc(String barcode, int year, int fsk, String director, String writer, String title) {
+    public Disc(final String barcodeInput, final int yearInput,
+            final int fskInput, final String directorInput,
+            final String writerInput, final String title) {
         super(title);
-        this.barcode = barcode;
-        this.year = year;
-        this.fsk = fsk;
-        this.director = director;
-        this.writer = writer;
+        this.barcode = barcodeInput;
+        this.year = yearInput;
+        this.fsk = fskInput;
+        this.director = directorInput;
+        this.writer = writerInput;
     }
-    
+
     /**
-     * A copy constructor.
-     * This will copy all value from other Disc to this new Disc.
+     * A copy constructor. This will copy all value from other Disc to this new
+     * Disc.
+     *
      * @param other The other disc which will be copied.
      */
-    public Disc(Disc other) {
+    public Disc(final Disc other) {
         this(other.getBarcode(), other.getYear(), other.getFsk(),
                 other.getDirector(), other.getWriter(), other.getTitle());
     }
@@ -85,7 +89,7 @@ public class Disc extends Resource {
      *
      * @return The barcode.
      */
-    public String getBarcode() {
+    public final String getBarcode() {
         return barcode;
     }
 
@@ -94,7 +98,7 @@ public class Disc extends Resource {
      *
      * @return The release year.
      */
-    public int getYear() {
+    public final int getYear() {
         return year;
     }
 
@@ -103,7 +107,7 @@ public class Disc extends Resource {
      *
      * @return The fsk.
      */
-    public int getFsk() {
+    public final int getFsk() {
         return fsk;
     }
 
@@ -112,7 +116,7 @@ public class Disc extends Resource {
      *
      * @return The director.
      */
-    public String getDirector() {
+    public final String getDirector() {
         return director;
     }
 
@@ -121,7 +125,7 @@ public class Disc extends Resource {
      *
      * @return The writer.
      */
-    public String getWriter() {
+    public final String getWriter() {
         return writer;
     }
 

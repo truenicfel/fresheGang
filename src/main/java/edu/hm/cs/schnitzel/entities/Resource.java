@@ -11,17 +11,24 @@ package edu.hm.cs.schnitzel.entities;
  *
  * @author nicfel
  */
-public abstract class Resource  {
-    
-    final String title;
+public abstract class Resource {
 
-    public Resource(String title) {
-        this.title = title;
+    private final String title;
+
+    /**
+     * Standard constructor.
+     * @param titleInput The title for the resource.
+     */
+    public Resource(final String titleInput) {
+        this.title = titleInput;
     }
 
-    final public String getTitle() {
+    /**
+     * Getter for field title.
+     * @return String representation forTitle.
+     */
+    public final String getTitle() {
         return title;
     }
-    
-    
+
 }

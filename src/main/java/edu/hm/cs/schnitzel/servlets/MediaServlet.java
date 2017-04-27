@@ -30,13 +30,14 @@ public class MediaServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    final void processRequest(final HttpServletRequest request,
+            final HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("application/json; charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
-      
-        final Result result = new MediaRequest(request, response).processRequest();
+        final Result result = new MediaRequest(request)
+                .processRequest();
         final String content = result.getJsonString();
         response.setContentLength(content.length());
         response.getWriter().append(content).close();

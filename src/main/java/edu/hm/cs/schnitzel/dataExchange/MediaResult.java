@@ -13,6 +13,7 @@ import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
 import edu.hm.cs.schnitzel.entities.Resource;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 /**
@@ -81,23 +82,25 @@ public class MediaResult implements Result {
     //--------------------------------------------------------------------------
     /**
      * A standard constructor. Initialize the class with all necessary params to
-     * ensure correct/useful responses. Note that this will throw an illegal 
+     * ensure correct/useful responses. Note that this will throw an illegal
      * argument exception if one of the params is null.
      *
-     * @param code A code similar to http status codes providing rough
+     * @param codeInput A code similar to http status codes providing rough
      * information on wether everything went right or not.
-     * @param message A specific error message to track down mistakes that were
-     * made or just "OK" if everything went right.
-     * @param resources The resources which should be appended; Resources must
-     * be able to be parsed to a json String using jackson.
+     * @param messageInput A specific error message to track down mistakes that
+     * were made or just "OK" if everything went right.
+     * @param resourcesInput The resources which should be appended; Resources
+     * must be able to be parsed to a json String using jackson.
      */
-    public MediaResult(int code, String message, List<Resource> resources) {
-        if(message == null|| resources == null) {
-            throw new IllegalArgumentException("Null as argument is not allowed here!");
+    public MediaResult(final int codeInput, final String messageInput,
+            final List<Resource> resourcesInput) {
+        if (messageInput == null || resourcesInput == null) {
+            throw new IllegalArgumentException("Null as argument "
+                    + "is not allowed here!");
         }
-        this.code = code;
-        this.message = message;
-        this.resources = resources;
+        this.code = codeInput;
+        this.message = messageInput;
+        this.resources = resourcesInput;
     }
 
     //Methods Private
@@ -111,14 +114,14 @@ public class MediaResult implements Result {
      * @param root The JSONObject which will be filled.
      * @return true if successful else if not.
      */
-    private boolean createJSONForResources(JSONObject root) {
+    private boolean createJSONForResources(final JSONObject root) {
         //success variable
         boolean success = true;
         //the mapper to map: Java Object -> json String
         final ObjectMapper mapper = new ObjectMapper();
         //create books object
         final JSONObject booksNode = new JSONObject();
-        //create discs 
+        //create discs
         final JSONObject discsNode = new JSONObject();
         try {
             //add each book/disc
@@ -126,10 +129,12 @@ public class MediaResult implements Result {
                 //decide wether input is book, disc or unknown
                 if (resource.getClass() == Book.class) {
                     //book: add node + parsed object
-                    booksNode.put(NODE_BOOK, mapper.writeValueAsString(resource));
+                    booksNode.put(NODE_BOOK,
+                            mapper.writeValueAsString(resource));
                 } else if (resource.getClass() == Disc.class) {
                     //disc: add node + parsed object
-                    discsNode.put(NODE_DISC, mapper.writeValueAsString(resource));
+                    discsNode.put(NODE_DISC,
+                            mapper.writeValueAsString(resource));
                 } else {
                     //print error message
                     System.out.println("A class was used that is not yet"
@@ -155,7 +160,7 @@ public class MediaResult implements Result {
     //Methods Public
     //--------------------------------------------------------------------------
     @Override
-    public String getJsonString() {
+    public final String getJsonString() {
         //root object for json creation
         final JSONObject root = new JSONObject();
         //create resources object
@@ -164,7 +169,7 @@ public class MediaResult implements Result {
         if (!createJSONForResources(resourcesNode)) {
             //unsuccessful :(
             //change the given
-            root.put(NODE_CODE, 500);
+            root.put(NODE_CODE, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             //add status message
             root.put(NODE_MESSAGE, "A server error occured while processing"
                     + "your request."
@@ -182,21 +187,35 @@ public class MediaResult implements Result {
             //add resources node
             root.put(NODE_RESOURCES, resourcesNode);
         }
-        
 
         return root.toString();
     }
 
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
+    /**
+     * Getter for code field.
+     *
+     * @return int representation of code.
+     */
     private int getCode() {
         return code;
     }
 
+    /**
+     * Getter for message field.
+     *
+     * @return String representation of Message.
+     */
     private String getMessage() {
         return message;
     }
 
+    /**
+     * Getter for resources field.
+     *
+     * @return List of resources.
+     */
     private List<Resource> getResources() {
         return resources;
     }

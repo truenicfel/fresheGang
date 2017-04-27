@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author nicfel
  */
 public interface Request {
-    
+
     /**
-     *
-     * @param request
-     * @return
+     * Processes a Servlet Request.
+     * This method will do everything necessary to get the desired output
+     * which is specified by the URI and the type of request.
+     * @return A result object containing.
      */
     Result processRequest();
-    
 }
