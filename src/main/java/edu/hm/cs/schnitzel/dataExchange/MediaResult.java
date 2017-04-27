@@ -7,14 +7,21 @@
  */
 package edu.hm.cs.schnitzel.dataExchange;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
 import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
 import edu.hm.cs.schnitzel.entities.Resource;
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 
 /**
  * A class that will produce a json String which will be sent to the requesting
@@ -118,23 +125,23 @@ public class MediaResult implements Result {
         //success variable
         boolean success = true;
         //the mapper to map: Java Object -> json String
-        final ObjectMapper mapper = new ObjectMapper();
+        final ObjectWriter writer = new ObjectMapper().writer();
         //create books object
-        final JSONObject booksNode = new JSONObject();
+        final JSONArray booksNode = new JSONArray();
         //create discs
-        final JSONObject discsNode = new JSONObject();
+        final JSONArray discsNode = new JSONArray();
         try {
             //add each book/disc
             for (Resource resource : getResources()) {
                 //decide wether input is book, disc or unknown
                 if (resource.getClass() == Book.class) {
                     //book: add node + parsed object
-                    booksNode.put(NODE_BOOK,
-                            mapper.writeValueAsString(resource));
+                    booksNode.put(
+                        	writer.writeValueAsString(resource));
                 } else if (resource.getClass() == Disc.class) {
                     //disc: add node + parsed object
-                    discsNode.put(NODE_DISC,
-                            mapper.writeValueAsString(resource));
+                    discsNode.put(
+                    		writer.writeValueAsString(resource));
                 } else {
                     //print error message
                     System.out.println("A class was used that is not yet"
@@ -142,7 +149,7 @@ public class MediaResult implements Result {
                             + "Element will be skipped.");
                 }
             }
-        } catch (JsonProcessingException exception) {
+        } catch (IOException exception) {
             //set success to false
             success = false;
             //print error message on console
