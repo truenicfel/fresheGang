@@ -19,63 +19,64 @@ import edu.hm.cs.schnitzel.entities.Disc;
  */
 public class PseudoDatabase {
 
-	// Object Variables
-	// --------------------------------------------------------------------------
+    // Object Variables
+    // -------------------------------------------------------------------------
+    private final Set<Book> books;
+    private final Set<Disc> discs;
 
-	private final Set<Book> books;
-	private final Set<Disc> discs;
+    // Constructors
+    // -------------------------------------------------------------------------
+    /**
+     * Use default filled database.
+     */
+    public PseudoDatabase() {
+        books = new HashSet<>();
+        discs = new HashSet<>();
 
-	// Constructors
-	// --------------------------------------------------------------------------
+        books.add(new Book("Tolkien", "12345-321",
+                2, "The Lord of the Rings 1"));
+        books.add(new Book("Tolkien", "12345-322",
+                1, "The Lord of the Rings 2"));
+        books.add(new Book("Tolkien", "12345-323",
+                1, "The Lord of the Rings 3"));
+        books.add(new Book("Rowling", "99999-123",
+                0, "Harry Potter"));
 
-	/**
-	 * Use default filled database.
-	 */
-	public PseudoDatabase() {
-		books = new HashSet<>();
-		discs = new HashSet<>();
+        discs.add(new Disc("9123-1234", 0, 2, "nicfel", "flip", "title"));
+        discs.add(new Disc("2342-3043", 1, 1, "affe", "kuh", "schnitzel"));
+        discs.add(new Disc("8723-4823", 2, 0,
+                "Peter Jackson", "...", "The Lord of the Rings"));
+    }
 
-		books.add(new Book("Tolkien", "12345-321", 1980, "The Lord of the Rings 1"));
-		books.add(new Book("Tolkien", "12345-322", 1985, "The Lord of the Rings 2"));
-		books.add(new Book("Tolkien", "12345-323", 1990, "The Lord of the Rings 3"));
-		books.add(new Book("Rowling", "99999-123", 2000, "Harry Potter"));
+    /**
+     * Fill your own database.
+     *
+     * @param booksInput are the books to be present on database start
+     * @param discsInput are the discs to be present on database start
+     */
+    public PseudoDatabase(final Set<Book> booksInput,
+            final Set<Disc> discsInput) {
+        this.books = booksInput;
+        this.discs = discsInput;
+    }
 
-		discs.add(new Disc("9123-1234", 2017, 18, "nicfel", "flip", "title"));
-		discs.add(new Disc("2342-3043", 2000, 6, "affe", "kuh", "schnitzel"));
-		discs.add(new Disc("8723-4823", 1980, 0, "Peter Jackson", "...", "The Lord of the Rings"));
-	}
+    // Public Getter
+    // -------------------------------------------------------------------------
+    /**
+     * Get Books.
+     *
+     * @return all books
+     */
+    public final Set<Book> getBooks() {
+        return books;
+    }
 
-	/**
-	 * Fill your own database.
-	 * 
-	 * @param books
-	 *            are the books to be present on database start
-	 * @param discs
-	 *            are the discs to be present on database start
-	 */
-	public PseudoDatabase(Set<Book> books, Set<Disc> discs) {
-		this.books = books;
-		this.discs = discs;
-	}
-
-	// Public Getter
-	// --------------------------------------------------------------------------
-
-	/**
-	 * Get Books.
-	 * 
-	 * @return all books
-	 */
-	public Set<Book> getBooks() {
-		return books;
-	}
-
-	/**
-	 * Get Discs.
-	 * 
-	 * @return all discs
-	 */
-	public Set<Disc> getDiscs() {
-		return discs;
-	}
+    /**
+     * Get Discs.
+     *
+     * @return all discs
+     */
+    public final Set<Disc> getDiscs() {
+        return discs;
+    }
 }
