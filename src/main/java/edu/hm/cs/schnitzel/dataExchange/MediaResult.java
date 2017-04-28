@@ -194,8 +194,8 @@ public class MediaResult implements Result {
             //add resources node
             root.put(NODE_RESOURCES, resourcesNode);
         }
-        //jackson produces escape characters in the json-String to remove those
-        //use a regex
+        //jackson produces escape characters in the json-String
+        //to remove those use a regex
         return root.toString().replaceAll("\\\\", "");
     }
 
