@@ -137,11 +137,11 @@ public class MediaResult implements Result {
                 if (resource.getClass() == Book.class) {
                     //book: add node + parsed object
                     booksNode.put(
-                        	writer.writeValueAsString(resource));
+                            writer.writeValueAsString(resource));
                 } else if (resource.getClass() == Disc.class) {
                     //disc: add node + parsed object
                     discsNode.put(
-                    		writer.writeValueAsString(resource));
+                            writer.writeValueAsString(resource));
                 } else {
                     //print error message
                     System.out.println("A class was used that is not yet"
@@ -194,8 +194,9 @@ public class MediaResult implements Result {
             //add resources node
             root.put(NODE_RESOURCES, resourcesNode);
         }
-
-        return root.toString();
+        //jackson produces escape characters in the json-String to remove those
+        //use a regex
+        return root.toString().replaceAll("\\\\", "");
     }
 
     //Getter + Setter (also Private)
