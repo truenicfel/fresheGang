@@ -24,16 +24,17 @@ import edu.hm.cs.schnitzel.entities.Resource;
  * @author konopac
  */
 public class MediaService implements Service {
+
     //Constant Variables
     //--------------------------------------------------------------------------
     private static final int OK_CODE = 200;
     private static final String OK_MESSAGE = "OK.";
     private static final int POLICITY_NOT_FULFILLED_CODE = 420;
-    private static final String POLICITY_NOT_FULFILLED_MESSAGE =
-            "Policy Not Fulfilled.";
+    private static final String POLICITY_NOT_FULFILLED_MESSAGE
+            = "Policy Not Fulfilled.";
     private static final int INTERNAL_SERVER_ERROR_CODE = 500;
-    private static final String INTERNAL_SERVER_ERROR_MESSAGE =
-            "Internal Server Error.";
+    private static final String INTERNAL_SERVER_ERROR_MESSAGE
+            = "Internal Server Error.";
 
     //Object Variables
     //--------------------------------------------------------------------------
@@ -57,11 +58,13 @@ public class MediaService implements Service {
         final int code;
         final String message;
         if (toAdd == null || toAdd.getIsbn() == null
-                || "".equals(toAdd.getIsbn())) {
+                || "".equals(toAdd.getIsbn()) 
+                || "".equals(toAdd.getAuthor())
+                || "".equals(toAdd.getTitle())) {
             code = POLICITY_NOT_FULFILLED_CODE;
             message = POLICITY_NOT_FULFILLED_MESSAGE
-                    + " The book and its isbn-number"
-                    + "must not be null or empty!";
+                    + " The book and its sbn-number/author/title"
+                    + " must not be null or empty!";
         } else if (!getDao().addBook(toAdd)) {
             code = INTERNAL_SERVER_ERROR_CODE;
             message = INTERNAL_SERVER_ERROR_MESSAGE
@@ -99,8 +102,8 @@ public class MediaService implements Service {
     public final Result getBooks() {
         final int code = OK_CODE;
         final String message = OK_MESSAGE + " All books loaded!";
-        final List<Resource> resources =
-                (List<Resource>) (List<?>) getDao().getBooks();
+        final List<Resource> resources
+                = (List<Resource>) (List<?>) getDao().getBooks();
 
         return new MediaResult(code, message, resources);
     }
@@ -109,8 +112,7 @@ public class MediaService implements Service {
     public final Result getDiscs() {
         final int code = OK_CODE;
         final String message = OK_MESSAGE + " All discs loaded!";
-        final List<Resource> resources = (List<Resource>) (List< ? >)
-                getDao().getDiscs();
+        final List<Resource> resources = (List<Resource>) (List< ?>) getDao().getDiscs();
 
         return new MediaResult(code, message, resources);
     }
@@ -191,8 +193,8 @@ public class MediaService implements Service {
 
         if (barcode == null || "".equals(barcode)) {
             code = POLICITY_NOT_FULFILLED_CODE;
-            message = POLICITY_NOT_FULFILLED_MESSAGE +
-                    " The barcode must not be null or empty!";
+            message = POLICITY_NOT_FULFILLED_MESSAGE
+                    + " The barcode must not be null or empty!";
         } else {
             code = OK_CODE;
             resources.add(getDao().getDisc(barcode));

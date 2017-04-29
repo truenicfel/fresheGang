@@ -59,7 +59,7 @@ public class MediaRequest implements Request {
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
         final String[] splittedURI = getRequest()
-        		.getRequestURI().split("/");
+                .getRequestURI().split("/");
         switch (getRequest().getMethod()) {
             case "GET":
                 //check if isbn is in url
@@ -73,9 +73,9 @@ public class MediaRequest implements Request {
                 break;
             case "PUT":
                 //update a book which will be specified with a book object
-            	final Book book = mapper.readValue(getRequest()
+                final Book book = mapper.readValue(getRequest()
                         .getInputStream(), Book.class);
-            	book.setIsbn(splittedURI[INDEX_ISBN]);
+                book.setIsbn(splittedURI[INDEX_ISBN]);
                 result = mediaService.updateBook(book);
                 break;
             case "POST":
@@ -109,7 +109,7 @@ public class MediaRequest implements Request {
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
         final String[] splittedURI = getRequest()
-        		.getRequestURI().split("/");
+                .getRequestURI().split("/");
         switch (getRequest().getMethod()) {
             case "GET":
                 //check for isbn in uri
@@ -122,9 +122,9 @@ public class MediaRequest implements Request {
                 }
                 break;
             case "PUT":
-            	final Disc disc = mapper.readValue(getRequest()
+                final Disc disc = mapper.readValue(getRequest()
                         .getInputStream(), Disc.class);
-            	disc.setBarcode(splittedURI[INDEX_ISBN]);
+                disc.setBarcode(splittedURI[INDEX_ISBN]);
                 //update a disc which will be specified with a disc object
                 result = mediaService.updateDisc(disc);
                 break;
@@ -147,6 +147,7 @@ public class MediaRequest implements Request {
     //--------------------------------------------------------------------------
     @Override
     final public Result processRequest() {
+        System.out.println("request received");
         //the result which will be returned
         Result result;
         //book or disc request
@@ -156,9 +157,8 @@ public class MediaRequest implements Request {
             if ("books".equals(requestedResource)) {
                 result = delegateBookAction();
             } else if ("discs".equals(requestedResource)) {
-                result = delegateDiscAction();
+                result = delegateDiscAction();          
             } else {
-                //TODO add a correct error report
                 result = new MediaResult(HttpServletResponse.SC_NOT_FOUND,
                         "Not found. The requested resource does not exist."
                         + "Make sure to use the correct URI pattern."
@@ -166,8 +166,7 @@ public class MediaRequest implements Request {
                         + "/shareit/media/books or discs/{isbn or barcode]",
                         Collections.emptyList());
             }
-        } catch (IOException exception) {
-            //TODO add a correct error report
+        } catch (IOException exception) {         
             result = new MediaResult(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "A server error occured. This is not your fault. "
@@ -175,7 +174,6 @@ public class MediaRequest implements Request {
                     + "Ein Fehler is beim parsen des Requests aufgetreten.",
                     Collections.emptyList());
         }
-
         return result;
     }
     //Getter + Setter (also Private)
@@ -183,11 +181,11 @@ public class MediaRequest implements Request {
 
     /**
      * Simple getter for Request Object Variable.
+     *
      * @return Request object.
      */
     private HttpServletRequest getRequest() {
         return request;
     }
-
 
 }

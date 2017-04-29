@@ -7,6 +7,8 @@
  */
 package edu.hm.cs.schnitzel.entities;
 
+import java.util.Objects;
+
 /**
  * Represents Books. This class will be able to be parsed from + to json.
  *
@@ -90,12 +92,13 @@ public class Book extends Resource {
 
     /**
      * Setter for author.
+     *
      * @param authorInput is the author
      */
     public final void setAuthor(final String authorInput) {
-		this.author = authorInput;
-	}
-    
+        this.author = authorInput;
+    }
+
     /**
      * Returns the isbn.
      *
@@ -107,12 +110,13 @@ public class Book extends Resource {
 
     /**
      * Setter for isbn.
+     *
      * @param isbnInput is the isbn
      */
     public final void setIsbn(final String isbnInput) {
-		this.isbn = isbnInput;
-	}
-    
+        this.isbn = isbnInput;
+    }
+
     /**
      * Returns the release year of the book.
      *
@@ -121,14 +125,40 @@ public class Book extends Resource {
     public final int getYear() {
         return year;
     }
-    
+
     /**
      * Setter for year.
+     *
      * @param yearInput is the year
      */
     public final void setYear(final int yearInput) {
-		this.year = yearInput;
-	}
+        this.year = yearInput;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.isbn);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Book other = (Book) obj;
+        if (!Objects.equals(this.isbn, other.isbn)) {
+            return false;
+        }
+        return true;
+    }
 
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------

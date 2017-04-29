@@ -119,38 +119,32 @@ public class MediaResult implements Result {
      * root JSONObject. The elements will be split up into Books and Discs.
      *
      * @param root The JSONObject which will be filled.
-     * @return true if successful else if not.
      */
-    private boolean createJSONForResources(final JSONObject root) {
-        //success variable
-        boolean success = true;
+    private void createJSONForResources(final JSONObject root) {
         //create books object
         final JSONArray booksNode = new JSONArray();
         //create discs
         final JSONArray discsNode = new JSONArray();
         //add each book/disc
-		for (Resource resource : getResources()) {
-		    //decide wether input is book, disc or unknown
-		    if (resource.getClass() == Book.class) {
-		        //book: add node + parsed object
-		        booksNode.put(new JSONObject(resource));
-		    } else if (resource.getClass() == Disc.class) {
-		        //disc: add node + parsed object
-		        discsNode.put(new JSONObject(resource));
-		    } else {
-		        //print error message
-		        System.out.println("A class was used that is not yet"
-		                + "implemented in this Result generator."
-		                + "Element will be skipped.");
-		    }
-		}
+        for (Resource resource : getResources()) {
+            //decide wether input is book, disc or unknown
+            if (resource.getClass() == Book.class) {
+                //book: add node + parsed object
+                booksNode.put(new JSONObject(resource));
+            } else if (resource.getClass() == Disc.class) {
+                //disc: add node + parsed object
+                discsNode.put(new JSONObject(resource));
+            } else {
+                //print error message
+                System.out.println("A class was used that is not yet"
+                        + "implemented in this Result generator."
+                        + "Element will be skipped.");
+            }
+        }
         //everything went alright so far
         //add the two created json object to the given root object
         root.put(NODE_BOOKS, booksNode);
         root.put(NODE_DISCS, discsNode);
-        //return true if successfull
-        return success;
-
     }
 
     //Methods Public
@@ -162,30 +156,14 @@ public class MediaResult implements Result {
         //create resources object
         final JSONObject resourcesNode = new JSONObject();
         //call method to fill resources node check for success
-        if (!createJSONForResources(resourcesNode)) {
-            //unsuccessful :(
-            //change the given
-            root.put(NODE_CODE, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            //add status message
-            root.put(NODE_MESSAGE, "A server error occured while processing"
-                    + "your request."
-                    + "Infos fuer Chefinformatiker: Beim parsen von Objekten"
-                    + "zu JSON-Strings ist ein Fehler aufgetreten.");
-            //add empty resources node
-            root.put(NODE_RESOURCES, new JSONObject());
-
-        } else {
-            //successful :)
-            //add status code
-            root.put(NODE_CODE, getCode());
-            //add status message
-            root.put(NODE_MESSAGE, getMessage());
-            //add resources node
-            root.put(NODE_RESOURCES, resourcesNode);
-        }
-        //jackson produces escape characters in the json-String
-        //to remove those use a regex
-        return root.toString().replaceAll("\\\\", "");
+        createJSONForResources(resourcesNode);
+        //add status code
+        root.put(NODE_CODE, getCode());
+        //add status message
+        root.put(NODE_MESSAGE, getMessage());
+        //add resources node
+        root.put(NODE_RESOURCES, resourcesNode);
+        return root.toString();
     }
 
     //Getter + Setter (also Private)

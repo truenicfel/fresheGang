@@ -33,15 +33,16 @@ public class MediaServlet extends HttpServlet {
     final void processRequest(final HttpServletRequest request,
             final HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         response.setContentType("application/json; charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         final Result result = new MediaRequest(request)
                 .processRequest();
         final String content = result.getJsonString();
+        
         response.setContentLength(content.length());
         response.getWriter().append(content).close();
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -83,11 +84,10 @@ public class MediaServlet extends HttpServlet {
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
-    		throws ServletException, IOException {
-    	processRequest(request, response);
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
-    
-    
+
     /**
      * Returns a short description of the servlet.
      *

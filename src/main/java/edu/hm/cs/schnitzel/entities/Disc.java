@@ -7,6 +7,8 @@
  */
 package edu.hm.cs.schnitzel.entities;
 
+import java.util.Objects;
+
 /**
  * Represents Discs. This class will be able to be parsed from + to json with
  * jackson.
@@ -95,12 +97,13 @@ public class Disc extends Resource {
 
     /**
      * Setter for barcode.
+     *
      * @param barcodeInput is the barcode
      */
     public final void setBarcode(final String barcodeInput) {
-		this.barcode = barcodeInput;
-	}
-    
+        this.barcode = barcodeInput;
+    }
+
     /**
      * Returns release year.
      *
@@ -109,14 +112,15 @@ public class Disc extends Resource {
     public final int getYear() {
         return year;
     }
-    
+
     /**
      * Setter for year.
+     *
      * @param yearInput is the year
      */
     public final void setYear(final int yearInput) {
-		this.year = yearInput;
-	}
+        this.year = yearInput;
+    }
 
     /**
      * Returns fsk.
@@ -126,14 +130,15 @@ public class Disc extends Resource {
     public final int getFsk() {
         return fsk;
     }
-    
+
     /**
      * Setter for fsk.
+     *
      * @param fskInput is the fsk
      */
     public final void setFsk(final int fskInput) {
-		this.fsk = fskInput;
-	}
+        this.fsk = fskInput;
+    }
 
     /**
      * Returns director.
@@ -146,12 +151,13 @@ public class Disc extends Resource {
 
     /**
      * Setter for director.
+     *
      * @param directorInput is the director
      */
     public final void setDirector(final String directorInput) {
-		this.director = directorInput;
-	}
-    
+        this.director = directorInput;
+    }
+
     /**
      * Returns writer.
      *
@@ -163,12 +169,38 @@ public class Disc extends Resource {
 
     /**
      * Setter for writer.
+     *
      * @param writerInput is the writer
      */
     public final void setWriter(final String writerInput) {
-		this.writer = writerInput;
-	}
-    
+        this.writer = writerInput;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.barcode);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Disc other = (Disc) obj;
+        if (!Objects.equals(this.barcode, other.barcode)) {
+            return false;
+        }
+        return true;
+    }
+
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
 }

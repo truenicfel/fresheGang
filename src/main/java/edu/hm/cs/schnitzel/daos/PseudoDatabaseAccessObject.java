@@ -26,8 +26,8 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     //Constant Variables
     //--------------------------------------------------------------------------
-    private static final PseudoDatabase DATABASE =
-            new PseudoDatabase(new HashSet<Book>(), new HashSet<>());
+    private static final PseudoDatabase DATABASE
+            = new PseudoDatabase(new HashSet<Book>(), new HashSet<>());
 
     //Methods Private
     //--------------------------------------------------------------------------
@@ -57,8 +57,7 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
     //--------------------------------------------------------------------------
     @Override
     public final boolean addBook(final Book toAdd) {
-        DATABASE.getBooks().add(toAdd);
-        return true;
+        return DATABASE.getBooks().add(toAdd);
     }
 
     @Override

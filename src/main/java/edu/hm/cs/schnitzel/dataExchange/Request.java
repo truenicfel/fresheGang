@@ -16,9 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 public interface Request {
 
     /**
-     * Processes a Servlet Request.
-     * This method will do everything necessary to get the desired output
-     * which is specified by the URI and the type of request.
+     * Processes a Servlet Request. This method will do everything necessary to
+     * get the desired output which is specified by the URI and the type of
+     * request.
+     *
      * @return A result object containing.
      */
     Result processRequest();

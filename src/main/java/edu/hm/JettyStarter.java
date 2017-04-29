@@ -1,6 +1,5 @@
 package edu.hm;
 
-
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.webapp.*;
 
@@ -26,22 +25,24 @@ public class JettyStarter {
 
     /**
      * Start jetty server.
-     * @throws Exception 
+     *
+     * @throws Exception
      */
-    public void start() throws Exception  {
+    public void start() throws Exception {
         getJetty().start();
     }
-    
+
     /**
      * Stop jetty server.
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     public void stop() throws Exception {
-    	getJetty().stop();
+        getJetty().stop();
     }
 
     private Server getJetty() {
         return jetty;
     }
-    
+
 }
