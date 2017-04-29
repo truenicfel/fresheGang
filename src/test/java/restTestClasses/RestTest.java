@@ -55,9 +55,9 @@ public class RestTest {
     // The methods must be annotated with annotation @Test. For example:
     //
     @Test
-    public void hello() throws IOException {
+    public void testEmptyDatabaseReturnsCorrectRestAnswer() throws IOException {
         //specify expected
-        final String expected = "";
+        final String expected = "{\"Message\":\"OK. All books loaded!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
         String got;
         try (final Socket socket = new Socket("localhost", 8082);
                 final PrintWriter printWriter
@@ -72,7 +72,6 @@ public class RestTest {
             //read content
             got = buffReader.lines().collect(Collectors.joining());
         }
-        System.out.println(got);
         //assert equals
         assertEquals(expected, got);
     }
@@ -91,7 +90,7 @@ public class RestTest {
 
     private void readUntilBody(BufferedReader buffReader) throws IOException {
         String line = buffReader.readLine();
-        while (!line.startsWith("\r\n")) {
+        while (line.length() > 0) {
             line = buffReader.readLine();
         }
     }
