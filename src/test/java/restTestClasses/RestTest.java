@@ -5,6 +5,15 @@
  */
 package restTestClasses;
 
+import edu.hm.JettyStarter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,29 +27,73 @@ import static org.junit.Assert.*;
  */
 public class RestTest {
 
-	public RestTest() {
-		
-	}
+    private JettyStarter jettyStarter;
 
-	@BeforeClass
-	public static void setUpClass() {
-	}
+    public RestTest() {
+    }
 
-	@AfterClass
-	public static void tearDownClass() {
-	}
+    @BeforeClass
+    public static void setUpClass() {
+    }
 
-	@Before
-	public void setUp() {
-	}
+    @AfterClass
+    public static void tearDownClass() {
+    }
 
-	@After
-	public void tearDown() {
-	}
+    @Before
+    public void setUp() throws Exception {
+        jettyStarter = new JettyStarter();
+        jettyStarter.start();
+    }
 
-	// TODO add test methods here.
-	// The methods must be annotated with annotation @Test. For example:
-	//
-	// @Test
-	// public void hello() {}
+    @After
+    public void tearDown() throws Exception {
+        jettyStarter.stop();
+    }
+
+    // TODO add test methods here.
+    // The methods must be annotated with annotation @Test. For example:
+    //
+    @Test
+    public void hello() throws IOException {
+        //specify expected
+        final String expected = "";
+        String got;
+        try (final Socket socket = new Socket("localhost", 8082);
+                final PrintWriter printWriter
+                = new PrintWriter(socket.getOutputStream());
+                final BufferedReader buffReader = new BufferedReader(
+                        new InputStreamReader(socket.getInputStream()))) {
+            sendHttpHeader(printWriter);
+            //place books + discs as json here
+            final String content = "";
+            sendContent(printWriter, content);
+            readUntilBody(buffReader);
+            //read content
+            got = buffReader.lines().collect(Collectors.joining());
+        }
+        //assert equals
+        assertEquals(expected, got);
+    }
+
+    //Private Methods
+    private void sendHttpHeader(PrintWriter writer) {
+        writer.print("GET /shareit/media/books HTTP/1.0\r\n");
+        writer.print("Host: localhost\r\n");
+        writer.print("\r\n");
+        writer.flush();
+    }
+
+    private void readUntilBody(BufferedReader buffReader) throws IOException {
+        String line = buffReader.readLine();
+        while (line.startsWith("\r\n")) {
+            line = buffReader.readLine();
+        }
+    }
+
+    private void sendContent(PrintWriter printWriter, String content) {
+        printWriter.write(content);
+        printWriter.flush();
+    }
+
 }
