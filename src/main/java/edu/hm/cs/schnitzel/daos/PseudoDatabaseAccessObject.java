@@ -13,6 +13,7 @@ import java.util.List;
 import edu.hm.cs.schnitzel.database.PseudoDatabase;
 import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
+import java.util.Collections;
 
 /**
  * PseudoDatabaseAccessObject.
@@ -25,7 +26,8 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     //Constant Variables
     //--------------------------------------------------------------------------
-    private static final PseudoDatabase DATABASE = new PseudoDatabase();
+    private static final PseudoDatabase DATABASE =
+            new PseudoDatabase(Collections.EMPTY_SET, Collections.EMPTY_SET);
 
     //Methods Private
     //--------------------------------------------------------------------------
