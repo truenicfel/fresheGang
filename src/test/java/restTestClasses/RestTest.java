@@ -27,77 +27,172 @@ import static org.junit.Assert.*;
  */
 public class RestTest {
 
-    private JettyStarter jettyStarter;
+	private JettyStarter jettyStarter;
 
-    public RestTest() {
-    }
+	public RestTest() {
+	}
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+	@BeforeClass
+	public static void setUpClass() {
+	}
 
-    @AfterClass
-    public static void tearDownClass() {
-    }
+	@AfterClass
+	public static void tearDownClass() {
+	}
 
-    @Before
-    public void setUp() throws Exception {
-        jettyStarter = new JettyStarter();
-        jettyStarter.start();
-    }
+	@Before
+	public void setUp() throws Exception {
+		jettyStarter = new JettyStarter();
+		jettyStarter.start();
+	}
 
-    @After
-    public void tearDown() throws Exception {
-        jettyStarter.stop();
-    }
+	@After
+	public void tearDown() throws Exception {
+		jettyStarter.stop();
+	}
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    @Test
-    public void testEmptyDatabaseReturnsCorrectRestAnswer() throws IOException {
-        //specify expected
-        final String expected = "{\"Message\":\"OK. All books loaded!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
-        String got;
-        try (final Socket socket = new Socket("localhost", 8082);
-                final PrintWriter printWriter
-                = new PrintWriter(socket.getOutputStream());
-                final BufferedReader buffReader = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()))) {
-            sendHttpHeader(printWriter, "GET", "books", "");
-            //place books + discs as json here
-            final String content = "";
-            sendContent(printWriter, content);
-            readUntilBody(buffReader);
-            //read content
-            got = buffReader.lines().collect(Collectors.joining());
-        }
-        //assert equals
-        assertEquals(expected, got);
-    }
+	// Test methods
+	@Test
+	public void emptyDatabaseGetAllBooks() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. All books loaded!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
+		// send request and receive answer
+		final String got = sendAndReceive("GET", "books", "", "");
+		// assert equals
+		assertEquals(expected, got);
+	}
+	
+	@Test
+	public void emptyDatabaseGetAllDiscs() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. All discs loaded!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
+		// send request and receive answer
+		final String got = sendAndReceive("GET", "discs", "", "");
+		// assert equals
+		assertEquals(expected, got);
+	}
 
-    //Private Methods
-    private void sendHttpHeader(PrintWriter writer, String method, String resource, String isbn) {
-        if (isbn.length() > 0) {
-            writer.print(method + " /shareit/media/" + resource + "/isbn" + " HTTP/1.0\r\n");
-        } else {
-            writer.print(method + " /shareit/media/" + resource + " HTTP/1.0\r\n");
-        }
-        writer.print("Host: localhost\r\n");
-        writer.print("\r\n");
-        writer.flush();
-    }
+	@Test
+	public void emptyDatabaseAddBook() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. The book with isbn-number 12345-322 has been created successfully!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
+		// send request and receive answer
+		final String got = sendAndReceive("POST", "books", "", "{\"title\":\"The Lord of the Rings 2\",\"author\":\"Tolkien\",\"isbn\":\"12345-322\",\"year\":1}");
+		// assert equals
+		assertEquals(expected, got);
+	}
 
-    private void readUntilBody(BufferedReader buffReader) throws IOException {
-        String line = buffReader.readLine();
-        while (line.length() > 0) {
-            line = buffReader.readLine();
-        }
-    }
+	@Test
+	public void emptyDatabaseAddDisc() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. The disc with barcode 123-45 has been created successfully!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
+		// send request and receive answer
+		final String got = sendAndReceive("POST", "discs", "", "{\"title\":\"Harry Potter\",\"barcode\":\"123-45\",\"year\":2004,\"fsk\":12,\"director\":\"Director1\",\"writer\":\"Writer1\"}");
+		// assert equals
+		assertEquals(expected, got);
+	}
+	
+	@Test
+	public void filledDatabaseGetBook() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. The book with isbn-number 12345-322 has been loaded!\",\"Resources\":{\"Discs\":[],\"Books\":[{\"year\":1,\"author\":\"Tolkien\",\"isbn\":\"12345-322\",\"title\":\"The Lord of the Rings 2\"}]},\"Code\":200}";
+		// send request and receive answer
+		sendAndReceive("POST", "books", "", "{\"title\":\"The Lord of the Rings 2\",\"author\":\"Tolkien\",\"isbn\":\"12345-322\",\"year\":1}");
+		final String got = sendAndReceive("GET", "books", "12345-322", "");
+		// assert equals
+		assertEquals(expected, got);
+	}
+	
+	@Test
+	public void filledDatabaseGetDisc() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. The disc with barcode 123-45 has been loaded!\",\"Resources\":{\"Discs\":[{\"year\":2004,\"director\":\"Director1\",\"writer\":\"Writer1\",\"title\":\"Harry Potter\",\"barcode\":\"123-45\",\"fsk\":12}],\"Books\":[]},\"Code\":200}";
+		// send request and receive answer
+		sendAndReceive("POST", "discs", "", "{\"title\":\"Harry Potter\",\"barcode\":\"123-45\",\"year\":2004,\"fsk\":12,\"director\":\"Director1\",\"writer\":\"Writer1\"}");
+		final String got = sendAndReceive("GET", "discs", "123-45", "");
+		// assert equals
+		assertEquals(expected, got);
+	}
 
-    private void sendContent(PrintWriter printWriter, String content) {
-        printWriter.write(content);
-        printWriter.flush();
-    }
+	@Test
+	public void filledDatabaseEditBook() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. The book with isbn-number 12345-322 has been updated successfully!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
+		// send request and receive answer
+		sendAndReceive("POST", "books", "", "{\"title\":\"The Lord of the Rings 2\",\"author\":\"Tolkien\",\"isbn\":\"12345-322\",\"year\":1}");
+		final String got = sendAndReceive("PUT", "books", "12345-322", "{\"year\":2000}");
+		// assert equals
+		assertEquals(expected, got);
+	}
+	
+	@Test
+	public void filledDatabaseEditDisc() throws IOException {
+		// specify expected
+		final String expected = "{\"Message\":\"OK. The disc with barcode 123-45 has been updated successfully!\",\"Resources\":{\"Discs\":[],\"Books\":[]},\"Code\":200}";
+		// send request and receive answer
+		sendAndReceive("POST", "discs", "", "{\"title\":\"Harry Potter\",\"barcode\":\"123-45\",\"year\":2004,\"fsk\":12,\"director\":\"Director1\",\"writer\":\"Writer1\"}");
+		final String got = sendAndReceive("PUT", "discs", "123-45", "{\"year\":2000}");
+		// assert equals
+		assertEquals(expected, got);
+	}
+	
+	
+
+	// Private Methods
+	private String sendAndReceive(String method, String resource, String isbn, String content) throws IOException {
+		String result = "";
+		try (final Socket socket = new Socket("localhost", 8082);
+			 final PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+			 final BufferedReader buffReader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+			System.out.println("sending...");
+			// send header
+			sendHttpHeader(printWriter, method, resource, isbn, content.length());
+			// send content
+			sendContent(printWriter, content);
+
+			System.out.println("reading...");
+			// read answer
+			readUntilBody(buffReader);
+			// read content
+			result = buffReader.lines().collect(Collectors.joining());
+			System.out.println(result);
+		}
+		return result;
+	}
+
+	private void sendHttpHeader(PrintWriter writer, String method, String resource, String isbn, int contentLength) {
+		if (isbn.length() > 0) {
+			writer.print(method + " /shareit/media/" + resource + "/" + isbn + " HTTP/1.0\r\n");
+			System.out.print(method + " /shareit/media/" + resource + "/" + isbn + " HTTP/1.0\r\n");
+		} else {
+			writer.print(method + " /shareit/media/" + resource + " HTTP/1.0\r\n");
+			System.out.print(method + " /shareit/media/" + resource + " HTTP/1.0\r\n");
+		}
+		writer.print("Host: localhost\r\n");
+		System.out.print("Host: localhost\r\n");
+		writer.print("Content-Type: application/json\r\n");
+		System.out.print("Content-Type: application/json\r\n");
+		writer.print("Content-Length: " + contentLength + "\r\n");
+		System.out.print("Content-Length: " + contentLength + "\r\n");
+//		writer.print("Connection: close\r\n");
+//		System.out.print("Connection: close\r\n");
+		writer.print("\r\n");
+		System.out.print("\r\n");
+		writer.flush();
+	}
+
+	private void readUntilBody(BufferedReader buffReader) throws IOException {
+		String line = buffReader.readLine();
+		while (line.length() > 0) {
+			System.out.println(line);
+			line = buffReader.readLine();
+		}
+	}
+
+	private void sendContent(PrintWriter printWriter, String content) {
+		printWriter.write(content);
+		System.out.println(content);
+		printWriter.flush();
+	}
 
 }

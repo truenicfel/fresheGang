@@ -13,7 +13,7 @@ package edu.hm.cs.schnitzel.entities;
  */
 public abstract class Resource {
 
-    private final String title;
+    private String title;
 
     /**
      * Standard constructor.
@@ -30,5 +30,13 @@ public abstract class Resource {
     public final String getTitle() {
         return title;
     }
+    
+    /**
+     * Setter for title.
+     * @param titleInput is the title
+     */
+    public final void setTitle(final String titleInput) {
+		this.title = titleInput;
+	}
 
 }

@@ -124,37 +124,26 @@ public class MediaResult implements Result {
     private boolean createJSONForResources(final JSONObject root) {
         //success variable
         boolean success = true;
-        //the mapper to map: Java Object -> json String
-        final ObjectWriter writer = new ObjectMapper().writer();
         //create books object
         final JSONArray booksNode = new JSONArray();
         //create discs
         final JSONArray discsNode = new JSONArray();
-        try {
-            //add each book/disc
-            for (Resource resource : getResources()) {
-                //decide wether input is book, disc or unknown
-                if (resource.getClass() == Book.class) {
-                    //book: add node + parsed object
-                    booksNode.put(
-                            writer.writeValueAsString(resource));
-                } else if (resource.getClass() == Disc.class) {
-                    //disc: add node + parsed object
-                    discsNode.put(
-                            writer.writeValueAsString(resource));
-                } else {
-                    //print error message
-                    System.out.println("A class was used that is not yet"
-                            + "implemented in this Result generator."
-                            + "Element will be skipped.");
-                }
-            }
-        } catch (IOException exception) {
-            //set success to false
-            success = false;
-            //print error message on console
-            System.out.println(exception);
-        }
+        //add each book/disc
+		for (Resource resource : getResources()) {
+		    //decide wether input is book, disc or unknown
+		    if (resource.getClass() == Book.class) {
+		        //book: add node + parsed object
+		        booksNode.put(new JSONObject(resource));
+		    } else if (resource.getClass() == Disc.class) {
+		        //disc: add node + parsed object
+		        discsNode.put(new JSONObject(resource));
+		    } else {
+		        //print error message
+		        System.out.println("A class was used that is not yet"
+		                + "implemented in this Result generator."
+		                + "Element will be skipped.");
+		    }
+		}
         //everything went alright so far
         //add the two created json object to the given root object
         root.put(NODE_BOOKS, booksNode);

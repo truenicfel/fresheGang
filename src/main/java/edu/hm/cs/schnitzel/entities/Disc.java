@@ -20,23 +20,23 @@ public class Disc extends Resource {
     /**
      * Identifies as disc (like a isbn for books).
      */
-    private final String barcode;
+    private String barcode;
     /**
      * The release year of the disc.
      */
-    private final int year;
+    private int year;
     /**
      * The fsk of the disc.
      */
-    private final int fsk;
+    private int fsk;
     /**
      * The director of the disc (only for movies).
      */
-    private final String director;
+    private String director;
     /**
      * The writer of the disc (only for movies).
      */
-    private final String writer;
+    private String writer;
 
     //Constructors
     //--------------------------------------------------------------------------
@@ -94,6 +94,14 @@ public class Disc extends Resource {
     }
 
     /**
+     * Setter for barcode.
+     * @param barcodeInput is the barcode
+     */
+    public final void setBarcode(final String barcodeInput) {
+		this.barcode = barcodeInput;
+	}
+    
+    /**
      * Returns release year.
      *
      * @return The release year.
@@ -101,6 +109,14 @@ public class Disc extends Resource {
     public final int getYear() {
         return year;
     }
+    
+    /**
+     * Setter for year.
+     * @param yearInput is the year
+     */
+    public final void setYear(final int yearInput) {
+		this.year = yearInput;
+	}
 
     /**
      * Returns fsk.
@@ -110,6 +126,14 @@ public class Disc extends Resource {
     public final int getFsk() {
         return fsk;
     }
+    
+    /**
+     * Setter for fsk.
+     * @param fskInput is the fsk
+     */
+    public final void setFsk(final int fskInput) {
+		this.fsk = fskInput;
+	}
 
     /**
      * Returns director.
@@ -121,6 +145,14 @@ public class Disc extends Resource {
     }
 
     /**
+     * Setter for director.
+     * @param directorInput is the director
+     */
+    public final void setDirector(final String directorInput) {
+		this.director = directorInput;
+	}
+    
+    /**
      * Returns writer.
      *
      * @return The writer.
@@ -129,6 +161,14 @@ public class Disc extends Resource {
         return writer;
     }
 
+    /**
+     * Setter for writer.
+     * @param writerInput is the writer
+     */
+    public final void setWriter(final String writerInput) {
+		this.writer = writerInput;
+	}
+    
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------
 }

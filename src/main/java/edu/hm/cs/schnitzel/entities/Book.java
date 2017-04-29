@@ -19,15 +19,15 @@ public class Book extends Resource {
     /**
      * The author of the book.
      */
-    private final String author;
+    private String author;
     /**
      * Identifies the book.
      */
-    private final String isbn;
+    private String isbn;
     /**
      * The release year of the book.
      */
-    private final int year;
+    private int year;
 
     //Constructors
     //--------------------------------------------------------------------------
@@ -89,6 +89,14 @@ public class Book extends Resource {
     }
 
     /**
+     * Setter for author.
+     * @param authorInput is the author
+     */
+    public final void setAuthor(final String authorInput) {
+		this.author = authorInput;
+	}
+    
+    /**
      * Returns the isbn.
      *
      * @return The isbn.
@@ -98,6 +106,14 @@ public class Book extends Resource {
     }
 
     /**
+     * Setter for isbn.
+     * @param isbnInput is the isbn
+     */
+    public final void setIsbn(final String isbnInput) {
+		this.isbn = isbnInput;
+	}
+    
+    /**
      * Returns the release year of the book.
      *
      * @return The release year.
@@ -105,6 +121,14 @@ public class Book extends Resource {
     public final int getYear() {
         return year;
     }
+    
+    /**
+     * Setter for year.
+     * @param yearInput is the year
+     */
+    public final void setYear(final int yearInput) {
+		this.year = yearInput;
+	}
 
     //Getter + Setter (also Private)
     //--------------------------------------------------------------------------

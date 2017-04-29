@@ -37,8 +37,7 @@ public class JettyStarter {
      * @throws Exception 
      */
     public void stop() throws Exception {
-        getJetty().stop();
-
+    	getJetty().stop();
     }
 
     private Server getJetty() {

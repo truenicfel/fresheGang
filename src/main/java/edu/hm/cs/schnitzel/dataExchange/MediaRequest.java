@@ -58,10 +58,10 @@ public class MediaRequest implements Request {
         final MediaService mediaService = new MediaService();
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
+        final String[] splittedURI = getRequest()
+        		.getRequestURI().split("/");
         switch (getRequest().getMethod()) {
             case "GET":
-                final String[] splittedURI = getRequest()
-                        .getRequestURI().split("/");
                 //check if isbn is in url
                 if (splittedURI.length == INDEX_ISBN + 1) {
                     //request only for one book
@@ -73,8 +73,10 @@ public class MediaRequest implements Request {
                 break;
             case "PUT":
                 //update a book which will be specified with a book object
-                result = mediaService.updateBook(mapper.readValue(getRequest()
-                        .getInputStream(), Book.class));
+            	final Book book = mapper.readValue(getRequest()
+                        .getInputStream(), Book.class);
+            	book.setIsbn(splittedURI[INDEX_ISBN]);
+                result = mediaService.updateBook(book);
                 break;
             case "POST":
                 //add a book which will be specified with a book object
@@ -106,23 +108,25 @@ public class MediaRequest implements Request {
         final MediaService mediaService = new MediaService();
         //the jackson mapper to create book objects
         final ObjectMapper mapper = new ObjectMapper();
+        final String[] splittedURI = getRequest()
+        		.getRequestURI().split("/");
         switch (getRequest().getMethod()) {
             case "GET":
-                final String[] splittedURI = getRequest()
-                        .getRequestURI().split("/");
                 //check for isbn in uri
                 if (splittedURI.length == INDEX_ISBN + 1) {
                     //return just the requested book
-                    result = mediaService.getBook(splittedURI[INDEX_ISBN]);
+                    result = mediaService.getDisc(splittedURI[INDEX_ISBN]);
                 } else {
                     //return all discs
                     result = mediaService.getDiscs();
                 }
                 break;
             case "PUT":
+            	final Disc disc = mapper.readValue(getRequest()
+                        .getInputStream(), Disc.class);
+            	disc.setBarcode(splittedURI[INDEX_ISBN]);
                 //update a disc which will be specified with a disc object
-                result = mediaService.updateDisc(mapper.readValue(getRequest()
-                        .getInputStream(), Disc.class));
+                result = mediaService.updateDisc(disc);
                 break;
             case "POST":
                 //add a disc which will be specified with a disc object
