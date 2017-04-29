@@ -13,7 +13,6 @@ import java.util.List;
 import edu.hm.cs.schnitzel.database.PseudoDatabase;
 import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
-import java.util.Collections;
 import java.util.HashSet;
 
 /**

@@ -64,7 +64,7 @@ public class RestTest {
                 = new PrintWriter(socket.getOutputStream());
                 final BufferedReader buffReader = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()))) {
-            sendHttpHeader(printWriter);
+            sendHttpHeader(printWriter, "GET", "books", "");
             //place books + discs as json here
             final String content = "";
             sendContent(printWriter, content);
@@ -72,13 +72,18 @@ public class RestTest {
             //read content
             got = buffReader.lines().collect(Collectors.joining());
         }
+        System.out.println(got);
         //assert equals
         assertEquals(expected, got);
     }
 
     //Private Methods
-    private void sendHttpHeader(PrintWriter writer) {
-        writer.print("GET /shareit/media/books HTTP/1.0\r\n");
+    private void sendHttpHeader(PrintWriter writer, String method, String resource, String isbn) {
+        if (isbn.length() > 0) {
+            writer.print(method + " /shareit/media/" + resource + "/isbn" + " HTTP/1.0\r\n");
+        } else {
+            writer.print(method + " /shareit/media/" + resource + " HTTP/1.0\r\n");
+        }
         writer.print("Host: localhost\r\n");
         writer.print("\r\n");
         writer.flush();
@@ -86,7 +91,7 @@ public class RestTest {
 
     private void readUntilBody(BufferedReader buffReader) throws IOException {
         String line = buffReader.readLine();
-        while (line.startsWith("\r\n")) {
+        while (!line.startsWith("\r\n")) {
             line = buffReader.readLine();
         }
     }
