@@ -57,13 +57,16 @@ public class MediaService implements Service {
     public final Result addBook(final Book toAdd) {
         final int code;
         final String message;
-        if (toAdd == null || toAdd.getIsbn() == null
-                || "".equals(toAdd.getIsbn()) 
+        if (toAdd == null
+        		|| toAdd.getIsbn() == null
+                || "".equals(toAdd.getIsbn())
+                || toAdd.getAuthor() == null
                 || "".equals(toAdd.getAuthor())
+                || toAdd.getTitle() == null
                 || "".equals(toAdd.getTitle())) {
             code = POLICITY_NOT_FULFILLED_CODE;
             message = POLICITY_NOT_FULFILLED_MESSAGE
-                    + " The book and its sbn-number/author/title"
+                    + " The book and its isbn-number/author/title"
                     + " must not be null or empty!";
         } else if (!getDao().addBook(toAdd)) {
             code = INTERNAL_SERVER_ERROR_CODE;
@@ -81,11 +84,19 @@ public class MediaService implements Service {
     public final Result addDisc(final Disc toAdd) {
         final int code;
         final String message;
-        if (toAdd == null || toAdd.getBarcode() == null
-                || "".equals(toAdd.getBarcode())) {
+        if (toAdd == null
+        		|| toAdd.getBarcode() == null
+                || "".equals(toAdd.getBarcode())
+                || toAdd.getTitle() == null
+                || "".equals(toAdd.getTitle())
+                || toAdd.getDirector() == null
+                || "".equals(toAdd.getDirector())
+                || toAdd.getWriter() == null
+                || "".equals(toAdd.getWriter())) {
             code = POLICITY_NOT_FULFILLED_CODE;
             message = POLICITY_NOT_FULFILLED_MESSAGE
-                    + " The disc and its barcode must not be null or empty!";
+                    + " The disc and its barcode/director/writer/title "
+                    + "must not be null or empty!";
         } else if (!getDao().addDisc(toAdd)) {
             code = INTERNAL_SERVER_ERROR_CODE;
             message = INTERNAL_SERVER_ERROR_MESSAGE
@@ -121,7 +132,8 @@ public class MediaService implements Service {
     public final Result updateBook(final Book toUpdate) {
         final int code;
         final String message;
-        if (toUpdate == null || toUpdate.getIsbn() == null
+        if (toUpdate == null
+        		|| toUpdate.getIsbn() == null
                 || "".equals(toUpdate.getIsbn())) {
             code = POLICITY_NOT_FULFILLED_CODE;
             message = POLICITY_NOT_FULFILLED_MESSAGE
@@ -172,14 +184,15 @@ public class MediaService implements Service {
                     + " The isbn-number must not be null or empty!";
         } else {
             code = OK_CODE;
-            resources.add(getDao().getBook(isbn));
-            if (resources.isEmpty()) {
+            final Book book = getDao().getBook(isbn);
+            if (book != null) {
+            	resources.add(book);
+            	message = OK_MESSAGE + " The book with isbn-number "
+            			+ isbn + " has been loaded!";
+            } else {
                 message = OK_MESSAGE
                         + " The book with isbn-number " + isbn
                         + " could not be found!";
-            } else {
-                message = OK_MESSAGE + " The book with isbn-number "
-                        + isbn + " has been loaded!";
             }
         }
         return new MediaResult(code, message, resources);
@@ -197,13 +210,14 @@ public class MediaService implements Service {
                     + " The barcode must not be null or empty!";
         } else {
             code = OK_CODE;
-            resources.add(getDao().getDisc(barcode));
-            if (resources.isEmpty()) {
-                message = OK_MESSAGE + " The disc with barcode "
-                        + barcode + " could not be found!";
+            final Disc disc = getDao().getDisc(barcode);
+            if (disc != null) {
+            	resources.add(disc);
+            	message = OK_MESSAGE + " The disc with barcode "
+            			+ barcode + " has been loaded!";
             } else {
                 message = OK_MESSAGE + " The disc with barcode "
-                        + barcode + " has been loaded!";
+                        + barcode + " could not be found!";
             }
         }
         return new MediaResult(code, message, resources);

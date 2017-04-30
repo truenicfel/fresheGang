@@ -29,6 +29,18 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
     private static final PseudoDatabase DATABASE
             = new PseudoDatabase(new HashSet<Book>(), new HashSet<>());
 
+    //Methods Public Static
+    //--------------------------------------------------------------------------
+
+    /**
+     * Clear the database.
+     * Mostly used for testing
+     */
+    public static final void clear() {
+    	DATABASE.getBooks().clear();
+    	DATABASE.getDiscs().clear();
+    }
+
     //Methods Private
     //--------------------------------------------------------------------------
     /**
@@ -62,8 +74,7 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     @Override
     public final boolean addDisc(final Disc toAdd) {
-        DATABASE.getDiscs().add(toAdd);
-        return true;
+        return DATABASE.getDiscs().add(toAdd);
     }
 
     @Override
@@ -82,21 +93,21 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     @Override
     public final boolean updateBook(final Book toUpdate) {
-        removeBook(toUpdate.getIsbn());
-        addBook(toUpdate);
-        return true;
+        final boolean removed = removeBook(toUpdate.getIsbn());
+        final boolean added = addBook(toUpdate);
+        return removed && added;
     }
 
     @Override
     public final boolean updateDisc(final Disc toUpdate) {
-        removeDisc(toUpdate.getBarcode());
-        addDisc(toUpdate);
-        return true;
+    	final boolean removed = removeDisc(toUpdate.getBarcode());
+    	final boolean added = addDisc(toUpdate);
+    	return removed && added;
     }
 
     @Override
     public final Book getBook(final String isbn) {
-        Book result = new Book();
+        Book result = null;
         for (final Book book : DATABASE.getBooks()) {
             if (book.getIsbn().equals(isbn)) {
                 result = book;
@@ -107,7 +118,7 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     @Override
     public final Disc getDisc(final String barcode) {
-        Disc result = new Disc();
+        Disc result = null;
         for (final Disc disc : DATABASE.getDiscs()) {
             if (disc.getBarcode().equals(barcode)) {
                 result = disc;

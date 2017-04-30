@@ -72,11 +72,17 @@ public class MediaRequest implements Request {
                 }
                 break;
             case "PUT":
-                //update a book which will be specified with a book object
-                final Book book = mapper.readValue(getRequest()
-                        .getInputStream(), Book.class);
-                book.setIsbn(splittedURI[INDEX_ISBN]);
-                result = mediaService.updateBook(book);
+            	if (splittedURI.length < (INDEX_ISBN + 1)) {
+            		result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
+                            "Bad Request. The isbn-number must not be emty!",
+                            Collections.emptyList());
+            	} else {
+            		//update a book which will be specified with a book object
+            		final Book book = mapper.readValue(getRequest()
+            				.getInputStream(), Book.class);
+            		book.setIsbn(splittedURI[INDEX_ISBN]);
+            		result = mediaService.updateBook(book);
+            	}
                 break;
             case "POST":
                 //add a book which will be specified with a book object
@@ -122,11 +128,17 @@ public class MediaRequest implements Request {
                 }
                 break;
             case "PUT":
-                final Disc disc = mapper.readValue(getRequest()
-                        .getInputStream(), Disc.class);
-                disc.setBarcode(splittedURI[INDEX_ISBN]);
-                //update a disc which will be specified with a disc object
-                result = mediaService.updateDisc(disc);
+            	if (splittedURI.length < (INDEX_ISBN + 1)) {
+            		result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
+                            "Bad Request. The barcode must not be emty!",
+                            Collections.emptyList());
+            	} else {
+                    final Disc disc = mapper.readValue(getRequest()
+                            .getInputStream(), Disc.class);
+                    disc.setBarcode(splittedURI[INDEX_ISBN]);
+                    //update a disc which will be specified with a disc object
+                    result = mediaService.updateDisc(disc);
+            	}
                 break;
             case "POST":
                 //add a disc which will be specified with a disc object
@@ -147,7 +159,6 @@ public class MediaRequest implements Request {
     //--------------------------------------------------------------------------
     @Override
     final public Result processRequest() {
-        System.out.println("request received");
         //the result which will be returned
         Result result;
         //book or disc request
