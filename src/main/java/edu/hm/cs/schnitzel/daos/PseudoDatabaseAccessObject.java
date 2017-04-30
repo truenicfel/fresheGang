@@ -31,14 +31,12 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     //Methods Public Static
     //--------------------------------------------------------------------------
-
     /**
-     * Clear the database.
-     * Mostly used for testing
+     * Clear the database. Mostly used for testing
      */
     public static final void clear() {
-    	DATABASE.getBooks().clear();
-    	DATABASE.getDiscs().clear();
+        DATABASE.getBooks().clear();
+        DATABASE.getDiscs().clear();
     }
 
     //Methods Private
@@ -100,9 +98,9 @@ public class PseudoDatabaseAccessObject implements DatabaseAccessObject {
 
     @Override
     public final boolean updateDisc(final Disc toUpdate) {
-    	final boolean removed = removeDisc(toUpdate.getBarcode());
-    	final boolean added = addDisc(toUpdate);
-    	return removed && added;
+        final boolean removed = removeDisc(toUpdate.getBarcode());
+        final boolean added = addDisc(toUpdate);
+        return removed && added;
     }
 
     @Override

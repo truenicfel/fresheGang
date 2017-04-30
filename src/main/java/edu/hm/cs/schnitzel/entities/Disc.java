@@ -177,14 +177,14 @@ public class Disc extends Resource {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         int hash = 7;
         hash = 83 * hash + Objects.hashCode(this.barcode);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -195,10 +195,7 @@ public class Disc extends Resource {
             return false;
         }
         final Disc other = (Disc) obj;
-        if (!Objects.equals(this.barcode, other.barcode)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.barcode, other.barcode);
     }
 
     //Getter + Setter (also Private)

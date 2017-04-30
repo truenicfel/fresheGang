@@ -33,19 +33,17 @@ public class MediaServlet extends HttpServlet {
     final void processRequest(final HttpServletRequest request,
             final HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("application/json; charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         final Result result = new MediaRequest(request)
                 .processRequest();
         final String content = result.getJsonString();
-        
         response.setContentLength(content.length());
         response.getWriter().append(content).close();
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -55,7 +53,8 @@ public class MediaServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected final void doGet(final HttpServletRequest request,
+            final HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -69,7 +68,8 @@ public class MediaServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected final void doPost(final HttpServletRequest request,
+            final HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -83,7 +83,8 @@ public class MediaServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+    protected final void doPut(final HttpServletRequest request,
+            final HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -94,8 +95,8 @@ public class MediaServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public final String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    } // </editor-fold>
 
 }

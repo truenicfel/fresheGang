@@ -58,7 +58,7 @@ public class MediaService implements Service {
         final int code;
         final String message;
         if (toAdd == null
-        		|| toAdd.getIsbn() == null
+                || toAdd.getIsbn() == null
                 || "".equals(toAdd.getIsbn())
                 || toAdd.getAuthor() == null
                 || "".equals(toAdd.getAuthor())
@@ -85,7 +85,7 @@ public class MediaService implements Service {
         final int code;
         final String message;
         if (toAdd == null
-        		|| toAdd.getBarcode() == null
+                || toAdd.getBarcode() == null
                 || "".equals(toAdd.getBarcode())
                 || toAdd.getTitle() == null
                 || "".equals(toAdd.getTitle())
@@ -114,7 +114,7 @@ public class MediaService implements Service {
         final int code = OK_CODE;
         final String message = OK_MESSAGE + " All books loaded!";
         final List<Resource> resources
-                = (List<Resource>) (List<?>) getDao().getBooks();
+                = (List<Resource>) (List< ?>) getDao().getBooks();
 
         return new MediaResult(code, message, resources);
     }
@@ -123,7 +123,8 @@ public class MediaService implements Service {
     public final Result getDiscs() {
         final int code = OK_CODE;
         final String message = OK_MESSAGE + " All discs loaded!";
-        final List<Resource> resources = (List<Resource>) (List< ?>) getDao().getDiscs();
+        final List<Resource> resources
+                = (List<Resource>) (List< ? >) getDao().getDiscs();
 
         return new MediaResult(code, message, resources);
     }
@@ -133,7 +134,7 @@ public class MediaService implements Service {
         final int code;
         final String message;
         if (toUpdate == null
-        		|| toUpdate.getIsbn() == null
+                || toUpdate.getIsbn() == null
                 || "".equals(toUpdate.getIsbn())) {
             code = POLICITY_NOT_FULFILLED_CODE;
             message = POLICITY_NOT_FULFILLED_MESSAGE
@@ -186,9 +187,9 @@ public class MediaService implements Service {
             code = OK_CODE;
             final Book book = getDao().getBook(isbn);
             if (book != null) {
-            	resources.add(book);
-            	message = OK_MESSAGE + " The book with isbn-number "
-            			+ isbn + " has been loaded!";
+                resources.add(book);
+                message = OK_MESSAGE + " The book with isbn-number "
+                        + isbn + " has been loaded!";
             } else {
                 message = OK_MESSAGE
                         + " The book with isbn-number " + isbn
@@ -212,9 +213,9 @@ public class MediaService implements Service {
             code = OK_CODE;
             final Disc disc = getDao().getDisc(barcode);
             if (disc != null) {
-            	resources.add(disc);
-            	message = OK_MESSAGE + " The disc with barcode "
-            			+ barcode + " has been loaded!";
+                resources.add(disc);
+                message = OK_MESSAGE + " The disc with barcode "
+                        + barcode + " has been loaded!";
             } else {
                 message = OK_MESSAGE + " The disc with barcode "
                         + barcode + " could not be found!";

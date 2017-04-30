@@ -24,7 +24,7 @@ public interface DatabaseAccessObject {
      * DAO method to add a single book
      *
      * @param toAdd is the book to be added
-     * @return true, if the process was successfull
+     * @return true, if the process was successful.
      */
     boolean addBook(final Book toAdd);
 
@@ -34,7 +34,7 @@ public interface DatabaseAccessObject {
      * DAO method to add a single disc
      *
      * @param toAdd is the disc to be added
-     * @return true, if the process was successfull
+     * @return true, if the process was successful.
      */
     boolean addDisc(final Disc toAdd);
 
@@ -83,7 +83,7 @@ public interface DatabaseAccessObject {
      * allowed)
      *
      * @param toUpdate is the updated book
-     * @return true, if the process was successfull
+     * @return true, if the process was successful.
      */
     boolean updateBook(final Book toUpdate);
 
@@ -93,7 +93,7 @@ public interface DatabaseAccessObject {
      * DAO method to update a single disc (changing the barcode is not allowed)
      *
      * @param toUpdate is the updated disc
-     * @return true, if the process was successfull
+     * @return true, if the process was successful.
      */
     boolean updateDisc(final Disc toUpdate);
 

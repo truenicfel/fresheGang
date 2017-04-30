@@ -7,18 +7,9 @@
  */
 package edu.hm.cs.schnitzel.dataExchange;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-
 import edu.hm.cs.schnitzel.entities.Book;
 import edu.hm.cs.schnitzel.entities.Disc;
 import edu.hm.cs.schnitzel.entities.Resource;
@@ -126,7 +117,7 @@ public class MediaResult implements Result {
         //create discs
         final JSONArray discsNode = new JSONArray();
         //add each book/disc
-        for (Resource resource : getResources()) {
+        getResources().forEach((resource) -> {
             //decide wether input is book, disc or unknown
             if (resource.getClass() == Book.class) {
                 //book: add node + parsed object
@@ -140,7 +131,7 @@ public class MediaResult implements Result {
                         + "implemented in this Result generator."
                         + "Element will be skipped.");
             }
-        }
+        });
         //everything went alright so far
         //add the two created json object to the given root object
         root.put(NODE_BOOKS, booksNode);

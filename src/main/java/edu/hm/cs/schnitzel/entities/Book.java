@@ -136,14 +136,14 @@ public class Book extends Resource {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         int hash = 7;
         hash = 41 * hash + Objects.hashCode(this.isbn);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -154,10 +154,7 @@ public class Book extends Resource {
             return false;
         }
         final Book other = (Book) obj;
-        if (!Objects.equals(this.isbn, other.isbn)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.isbn, other.isbn);
     }
 
     //Getter + Setter (also Private)

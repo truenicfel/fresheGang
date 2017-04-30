@@ -72,17 +72,17 @@ public class MediaRequest implements Request {
                 }
                 break;
             case "PUT":
-            	if (splittedURI.length < (INDEX_ISBN + 1)) {
-            		result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
+                if (splittedURI.length < (INDEX_ISBN + 1)) {
+                    result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
                             "Bad Request. The isbn-number must not be emty!",
                             Collections.emptyList());
-            	} else {
-            		//update a book which will be specified with a book object
-            		final Book book = mapper.readValue(getRequest()
-            				.getInputStream(), Book.class);
-            		book.setIsbn(splittedURI[INDEX_ISBN]);
-            		result = mediaService.updateBook(book);
-            	}
+                } else {
+                    //update a book which will be specified with a book object
+                    final Book book = mapper.readValue(getRequest()
+                            .getInputStream(), Book.class);
+                    book.setIsbn(splittedURI[INDEX_ISBN]);
+                    result = mediaService.updateBook(book);
+                }
                 break;
             case "POST":
                 //add a book which will be specified with a book object
@@ -128,17 +128,17 @@ public class MediaRequest implements Request {
                 }
                 break;
             case "PUT":
-            	if (splittedURI.length < (INDEX_ISBN + 1)) {
-            		result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
+                if (splittedURI.length < (INDEX_ISBN + 1)) {
+                    result = new MediaResult(HttpServletResponse.SC_BAD_REQUEST,
                             "Bad Request. The barcode must not be emty!",
                             Collections.emptyList());
-            	} else {
+                } else {
                     final Disc disc = mapper.readValue(getRequest()
                             .getInputStream(), Disc.class);
                     disc.setBarcode(splittedURI[INDEX_ISBN]);
                     //update a disc which will be specified with a disc object
                     result = mediaService.updateDisc(disc);
-            	}
+                }
                 break;
             case "POST":
                 //add a disc which will be specified with a disc object
@@ -158,7 +158,7 @@ public class MediaRequest implements Request {
     //Methods Public
     //--------------------------------------------------------------------------
     @Override
-    final public Result processRequest() {
+    public final Result processRequest() {
         //the result which will be returned
         Result result;
         //book or disc request
@@ -168,7 +168,7 @@ public class MediaRequest implements Request {
             if ("books".equals(requestedResource)) {
                 result = delegateBookAction();
             } else if ("discs".equals(requestedResource)) {
-                result = delegateDiscAction();          
+                result = delegateDiscAction();
             } else {
                 result = new MediaResult(HttpServletResponse.SC_NOT_FOUND,
                         "Not found. The requested resource does not exist."
@@ -177,7 +177,7 @@ public class MediaRequest implements Request {
                         + "/shareit/media/books or discs/{isbn or barcode]",
                         Collections.emptyList());
             }
-        } catch (IOException exception) {         
+        } catch (IOException exception) {
             result = new MediaResult(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "A server error occured. This is not your fault. "
