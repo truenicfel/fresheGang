@@ -45,9 +45,12 @@ var listBooks = function() {
         type:'GET'
 	})
 	.done((data) => {
-		var template = "<table class='u-full-width'><tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td>{{isbn}}</td></tr>{{/data}}</tbody></table>";
-		Mustache.parse(template);
-		var output = Mustache.render(template, {data: data});
+		var output = "<table class='u-full-width'><thead><tr><th>Titel</th><th>Autor</th><th>ISBN</th></tr></thead><tbody>";
+		var books = data.Resources.Books;
+		books.forEach(function(book) {
+			output += "<tr><td>"+ book.title +"</td><td>"+ book.author +"</td><td>"+ book.isbn +"</td></tr>";
+		});
+		output += "</tbody></table>";
 		$("#content").html(output);
 	});// no error handling
 }
