@@ -16,14 +16,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.stream.Collectors;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import edu.hm.JettyStarter;
-import edu.hm.cs.schnitzel.daos.PseudoDatabaseAccessObject;
-import edu.hm.cs.schnitzel.database.PseudoDatabase;
+import edu.hm.cs.schnitzel.media.daos.PseudoDatabaseAccessObject;
+import edu.hm.cs.schnitzel.media.database.PseudoDatabase;
 
 /**
  *
