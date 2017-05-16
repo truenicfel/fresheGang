@@ -5,14 +5,14 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.daos;
+package edu.hm.cs.schnitzel.media.daos;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.hm.cs.schnitzel.database.PseudoDatabase;
-import edu.hm.cs.schnitzel.entities.Book;
-import edu.hm.cs.schnitzel.entities.Disc;
+import edu.hm.cs.schnitzel.media.database.PseudoDatabase;
+import edu.hm.cs.schnitzel.media.entities.Book;
+import edu.hm.cs.schnitzel.media.entities.Disc;
 import java.util.HashSet;
 
 /**

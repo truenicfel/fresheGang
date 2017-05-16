@@ -5,7 +5,7 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.entities;
+package edu.hm.cs.schnitzel.media.entities;
 
 /**
  *

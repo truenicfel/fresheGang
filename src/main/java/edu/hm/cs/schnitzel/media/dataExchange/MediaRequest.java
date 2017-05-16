@@ -5,12 +5,12 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.dataExchange;
+package edu.hm.cs.schnitzel.media.dataExchange;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.hm.cs.schnitzel.entities.Book;
-import edu.hm.cs.schnitzel.entities.Disc;
-import edu.hm.cs.schnitzel.services.MediaService;
+import edu.hm.cs.schnitzel.media.entities.Book;
+import edu.hm.cs.schnitzel.media.entities.Disc;
+import edu.hm.cs.schnitzel.media.services.MediaService;
 import java.io.IOException;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;

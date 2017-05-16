@@ -5,11 +5,11 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.services;
+package edu.hm.cs.schnitzel.media.services;
 
-import edu.hm.cs.schnitzel.dataExchange.Result;
-import edu.hm.cs.schnitzel.entities.Book;
-import edu.hm.cs.schnitzel.entities.Disc;
+import edu.hm.cs.schnitzel.media.dataExchange.Result;
+import edu.hm.cs.schnitzel.media.entities.Book;
+import edu.hm.cs.schnitzel.media.entities.Disc;
 
 /**
  *

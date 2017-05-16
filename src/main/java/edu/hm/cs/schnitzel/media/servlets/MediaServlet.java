@@ -5,10 +5,10 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.servlets;
+package edu.hm.cs.schnitzel.media.servlets;
 
-import edu.hm.cs.schnitzel.dataExchange.MediaRequest;
-import edu.hm.cs.schnitzel.dataExchange.Result;
+import edu.hm.cs.schnitzel.media.dataExchange.MediaRequest;
+import edu.hm.cs.schnitzel.media.dataExchange.Result;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

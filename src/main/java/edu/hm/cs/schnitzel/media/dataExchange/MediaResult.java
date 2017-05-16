@@ -5,14 +5,14 @@
  * Vorlesung:   Software Architektur
  * Dozent:      A.Boettcher
  */
-package edu.hm.cs.schnitzel.dataExchange;
+package edu.hm.cs.schnitzel.media.dataExchange;
 
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import edu.hm.cs.schnitzel.entities.Book;
-import edu.hm.cs.schnitzel.entities.Disc;
-import edu.hm.cs.schnitzel.entities.Resource;
+import edu.hm.cs.schnitzel.media.entities.Book;
+import edu.hm.cs.schnitzel.media.entities.Disc;
+import edu.hm.cs.schnitzel.media.entities.Resource;
 
 /**
  * A class that will produce a json String which will be sent to the requesting
